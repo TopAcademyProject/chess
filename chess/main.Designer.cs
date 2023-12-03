@@ -28,42 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.SideBar = new System.Windows.Forms.Panel();
             this.buttonQuit = new System.Windows.Forms.Button();
             this.buttonLoadGame = new System.Windows.Forms.Button();
-            this.buttonSafeGame = new System.Windows.Forms.Button();
+            this.buttonSaveGame = new System.Windows.Forms.Button();
             this.buttonNewGame = new System.Windows.Forms.Button();
             this.panelLogo = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelLogoName = new System.Windows.Forms.Label();
             this.panelGameInfo = new System.Windows.Forms.Panel();
+            this.btnCloseChildForm = new System.Windows.Forms.Button();
             this.labelGameInfo = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.panelFormField = new System.Windows.Forms.Panel();
+            this.SideBar.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelGameInfo.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // SideBar
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
-            this.panel1.Controls.Add(this.buttonQuit);
-            this.panel1.Controls.Add(this.buttonLoadGame);
-            this.panel1.Controls.Add(this.buttonSafeGame);
-            this.panel1.Controls.Add(this.buttonNewGame);
-            this.panel1.Controls.Add(this.panelLogo);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(220, 450);
-            this.panel1.TabIndex = 3;
+            this.SideBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.SideBar.Controls.Add(this.buttonQuit);
+            this.SideBar.Controls.Add(this.buttonLoadGame);
+            this.SideBar.Controls.Add(this.buttonSaveGame);
+            this.SideBar.Controls.Add(this.buttonNewGame);
+            this.SideBar.Controls.Add(this.panelLogo);
+            this.SideBar.Dock = System.Windows.Forms.DockStyle.Left;
+            this.SideBar.Location = new System.Drawing.Point(0, 0);
+            this.SideBar.Name = "SideBar";
+            this.SideBar.Size = new System.Drawing.Size(220, 450);
+            this.SideBar.TabIndex = 3;
             // 
             // buttonQuit
             // 
             this.buttonQuit.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonQuit.FlatAppearance.BorderSize = 0;
             this.buttonQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonQuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.buttonQuit.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonQuit.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonQuit.Location = new System.Drawing.Point(0, 240);
             this.buttonQuit.Name = "buttonQuit";
@@ -77,7 +79,7 @@
             this.buttonLoadGame.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonLoadGame.FlatAppearance.BorderSize = 0;
             this.buttonLoadGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonLoadGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.buttonLoadGame.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonLoadGame.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonLoadGame.Location = new System.Drawing.Point(0, 180);
             this.buttonLoadGame.Name = "buttonLoadGame";
@@ -86,26 +88,26 @@
             this.buttonLoadGame.Text = "Load Game";
             this.buttonLoadGame.UseVisualStyleBackColor = true;
             // 
-            // buttonSafeGame
+            // buttonSaveGame
             // 
-            this.buttonSafeGame.Dock = System.Windows.Forms.DockStyle.Top;
-            this.buttonSafeGame.FlatAppearance.BorderSize = 0;
-            this.buttonSafeGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSafeGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.buttonSafeGame.ForeColor = System.Drawing.Color.Gainsboro;
-            this.buttonSafeGame.Location = new System.Drawing.Point(0, 120);
-            this.buttonSafeGame.Name = "buttonSafeGame";
-            this.buttonSafeGame.Size = new System.Drawing.Size(220, 60);
-            this.buttonSafeGame.TabIndex = 3;
-            this.buttonSafeGame.Text = "Safe Game";
-            this.buttonSafeGame.UseVisualStyleBackColor = true;
+            this.buttonSaveGame.Dock = System.Windows.Forms.DockStyle.Top;
+            this.buttonSaveGame.FlatAppearance.BorderSize = 0;
+            this.buttonSaveGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSaveGame.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonSaveGame.ForeColor = System.Drawing.Color.Gainsboro;
+            this.buttonSaveGame.Location = new System.Drawing.Point(0, 120);
+            this.buttonSaveGame.Name = "buttonSaveGame";
+            this.buttonSaveGame.Size = new System.Drawing.Size(220, 60);
+            this.buttonSaveGame.TabIndex = 3;
+            this.buttonSaveGame.Text = "Save Game";
+            this.buttonSaveGame.UseVisualStyleBackColor = true;
             // 
             // buttonNewGame
             // 
             this.buttonNewGame.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonNewGame.FlatAppearance.BorderSize = 0;
             this.buttonNewGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonNewGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonNewGame.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonNewGame.ForeColor = System.Drawing.Color.Gainsboro;
             this.buttonNewGame.Location = new System.Drawing.Point(0, 60);
             this.buttonNewGame.Name = "buttonNewGame";
@@ -113,6 +115,7 @@
             this.buttonNewGame.TabIndex = 2;
             this.buttonNewGame.Text = "New Game";
             this.buttonNewGame.UseVisualStyleBackColor = true;
+            this.buttonNewGame.Click += new System.EventHandler(this.buttonNewGame_Click);
             // 
             // panelLogo
             // 
@@ -136,17 +139,18 @@
             // labelLogoName
             // 
             this.labelLogoName.AutoSize = true;
-            this.labelLogoName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.labelLogoName.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelLogoName.ForeColor = System.Drawing.Color.Gainsboro;
             this.labelLogoName.Location = new System.Drawing.Point(88, 20);
             this.labelLogoName.Name = "labelLogoName";
-            this.labelLogoName.Size = new System.Drawing.Size(112, 20);
+            this.labelLogoName.Size = new System.Drawing.Size(117, 25);
             this.labelLogoName.TabIndex = 0;
             this.labelLogoName.Text = "Chess Game";
             // 
             // panelGameInfo
             // 
             this.panelGameInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panelGameInfo.Controls.Add(this.btnCloseChildForm);
             this.panelGameInfo.Controls.Add(this.labelGameInfo);
             this.panelGameInfo.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelGameInfo.Location = new System.Drawing.Point(220, 0);
@@ -154,27 +158,53 @@
             this.panelGameInfo.Size = new System.Drawing.Size(580, 59);
             this.panelGameInfo.TabIndex = 5;
             // 
+            // btnCloseChildForm
+            // 
+            this.btnCloseChildForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCloseChildForm.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnCloseChildForm.FlatAppearance.BorderSize = 0;
+            this.btnCloseChildForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCloseChildForm.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnCloseChildForm.ImageAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btnCloseChildForm.Location = new System.Drawing.Point(560, 0);
+            this.btnCloseChildForm.Name = "btnCloseChildForm";
+            this.btnCloseChildForm.Size = new System.Drawing.Size(20, 20);
+            this.btnCloseChildForm.TabIndex = 1;
+            this.btnCloseChildForm.Text = "X";
+            this.btnCloseChildForm.UseVisualStyleBackColor = true;
+            this.btnCloseChildForm.Click += new System.EventHandler(this.btnCloseChildForm_Click);
+            // 
             // labelGameInfo
             // 
+            this.labelGameInfo.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelGameInfo.AutoSize = true;
-            this.labelGameInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.labelGameInfo.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelGameInfo.ForeColor = System.Drawing.Color.Gainsboro;
-            this.labelGameInfo.Location = new System.Drawing.Point(23, 22);
+            this.labelGameInfo.Location = new System.Drawing.Point(261, 20);
             this.labelGameInfo.Name = "labelGameInfo";
-            this.labelGameInfo.Size = new System.Drawing.Size(162, 20);
+            this.labelGameInfo.Size = new System.Drawing.Size(66, 25);
             this.labelGameInfo.TabIndex = 0;
-            this.labelGameInfo.Text = "Game for n-players";
+            this.labelGameInfo.Text = "Home";
+            // 
+            // panelFormField
+            // 
+            this.panelFormField.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelFormField.Location = new System.Drawing.Point(220, 59);
+            this.panelFormField.Name = "panelFormField";
+            this.panelFormField.Size = new System.Drawing.Size(580, 391);
+            this.panelFormField.TabIndex = 6;
             // 
             // main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.panelFormField);
             this.Controls.Add(this.panelGameInfo);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.SideBar);
             this.Name = "main";
             this.Text = "main";
-            this.panel1.ResumeLayout(false);
+            this.SideBar.ResumeLayout(false);
             this.panelLogo.ResumeLayout(false);
             this.panelLogo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -186,15 +216,17 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel SideBar;
         private System.Windows.Forms.Button buttonQuit;
         private System.Windows.Forms.Button buttonLoadGame;
-        private System.Windows.Forms.Button buttonSafeGame;
+        private System.Windows.Forms.Button buttonSaveGame;
         private System.Windows.Forms.Button buttonNewGame;
         private System.Windows.Forms.Panel panelLogo;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label labelLogoName;
         private System.Windows.Forms.Panel panelGameInfo;
         private System.Windows.Forms.Label labelGameInfo;
+        private System.Windows.Forms.Panel panelFormField;
+        private System.Windows.Forms.Button btnCloseChildForm;
     }
 }
