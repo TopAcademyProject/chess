@@ -8,18 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Chess
+namespace chess
 {
-    public partial class main : Form
+    public partial class ChessField : Form
     {
-        public main()
+        public ChessField()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
