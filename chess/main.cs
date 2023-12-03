@@ -12,24 +12,8 @@ namespace Chess
 {
     public partial class main : Form
     {
-        public main()
-        {
-            InitializeComponent();
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void labelScoreSecondPlayer_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
+        public main() => InitializeComponent();
     }
+
+
 }

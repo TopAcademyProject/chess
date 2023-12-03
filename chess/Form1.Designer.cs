@@ -34,14 +34,14 @@
             this.buttonSafeGame = new System.Windows.Forms.Button();
             this.buttonNewGame = new System.Windows.Forms.Button();
             this.panelLogo = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.labelLogoName = new System.Windows.Forms.Label();
             this.panelGameInfo = new System.Windows.Forms.Panel();
             this.labelGameInfo = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panelLogo.SuspendLayout();
-            this.panelGameInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panelGameInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -57,7 +57,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(220, 540);
             this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // buttonQuit
             // 
@@ -126,17 +125,24 @@
             this.panelLogo.Size = new System.Drawing.Size(220, 60);
             this.panelLogo.TabIndex = 0;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(27, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(46, 42);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // labelLogoName
             // 
             this.labelLogoName.AutoSize = true;
-            this.labelLogoName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.labelLogoName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelLogoName.ForeColor = System.Drawing.Color.Gainsboro;
             this.labelLogoName.Location = new System.Drawing.Point(88, 20);
             this.labelLogoName.Name = "labelLogoName";
-            this.labelLogoName.Size = new System.Drawing.Size(112, 20);
+            this.labelLogoName.Size = new System.Drawing.Size(101, 21);
             this.labelLogoName.TabIndex = 0;
             this.labelLogoName.Text = "Chess Game";
-            this.labelLogoName.Click += new System.EventHandler(this.label2_Click);
             // 
             // panelGameInfo
             // 
@@ -151,21 +157,13 @@
             // labelGameInfo
             // 
             this.labelGameInfo.AutoSize = true;
-            this.labelGameInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.labelGameInfo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelGameInfo.ForeColor = System.Drawing.Color.Gainsboro;
             this.labelGameInfo.Location = new System.Drawing.Point(6, 20);
             this.labelGameInfo.Name = "labelGameInfo";
-            this.labelGameInfo.Size = new System.Drawing.Size(162, 20);
+            this.labelGameInfo.Size = new System.Drawing.Size(155, 21);
             this.labelGameInfo.TabIndex = 0;
             this.labelGameInfo.Text = "Game for n-players";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(27, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(46, 42);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
             // 
             // main
             // 
@@ -180,9 +178,9 @@
             this.panel1.ResumeLayout(false);
             this.panelLogo.ResumeLayout(false);
             this.panelLogo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelGameInfo.ResumeLayout(false);
             this.panelGameInfo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
