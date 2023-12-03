@@ -1,4 +1,4 @@
-﻿namespace chess
+﻿namespace Chess
 {
     partial class main
     {
