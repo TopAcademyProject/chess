@@ -1,16 +1,16 @@
-﻿namespace Chess
+﻿namespace chess
 {
     partial class main
     {
         /// <summary>
-        /// Обязательная переменная конструктора.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Освободить все используемые ресурсы.
+        /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,11 +20,11 @@
             base.Dispose(disposing);
         }
 
-        #region Код, автоматически созданный конструктором форм Windows
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -55,8 +55,8 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(220, 540);
-            this.panel1.TabIndex = 0;
+            this.panel1.Size = new System.Drawing.Size(220, 450);
+            this.panel1.TabIndex = 3;
             // 
             // buttonQuit
             // 
@@ -136,11 +136,11 @@
             // labelLogoName
             // 
             this.labelLogoName.AutoSize = true;
-            this.labelLogoName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelLogoName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.labelLogoName.ForeColor = System.Drawing.Color.Gainsboro;
             this.labelLogoName.Location = new System.Drawing.Point(88, 20);
             this.labelLogoName.Name = "labelLogoName";
-            this.labelLogoName.Size = new System.Drawing.Size(101, 21);
+            this.labelLogoName.Size = new System.Drawing.Size(112, 20);
             this.labelLogoName.TabIndex = 0;
             this.labelLogoName.Text = "Chess Game";
             // 
@@ -151,17 +151,17 @@
             this.panelGameInfo.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelGameInfo.Location = new System.Drawing.Point(220, 0);
             this.panelGameInfo.Name = "panelGameInfo";
-            this.panelGameInfo.Size = new System.Drawing.Size(716, 59);
-            this.panelGameInfo.TabIndex = 2;
+            this.panelGameInfo.Size = new System.Drawing.Size(580, 59);
+            this.panelGameInfo.TabIndex = 5;
             // 
             // labelGameInfo
             // 
             this.labelGameInfo.AutoSize = true;
-            this.labelGameInfo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelGameInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.labelGameInfo.ForeColor = System.Drawing.Color.Gainsboro;
-            this.labelGameInfo.Location = new System.Drawing.Point(6, 20);
+            this.labelGameInfo.Location = new System.Drawing.Point(23, 22);
             this.labelGameInfo.Name = "labelGameInfo";
-            this.labelGameInfo.Size = new System.Drawing.Size(155, 21);
+            this.labelGameInfo.Size = new System.Drawing.Size(162, 20);
             this.labelGameInfo.TabIndex = 0;
             this.labelGameInfo.Text = "Game for n-players";
             // 
@@ -169,12 +169,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Menu;
-            this.ClientSize = new System.Drawing.Size(936, 540);
+            this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panelGameInfo);
             this.Controls.Add(this.panel1);
             this.Name = "main";
-            this.Text = "Main";
+            this.Text = "main";
             this.panel1.ResumeLayout(false);
             this.panelLogo.ResumeLayout(false);
             this.panelLogo.PerformLayout();
@@ -193,10 +192,9 @@
         private System.Windows.Forms.Button buttonSafeGame;
         private System.Windows.Forms.Button buttonNewGame;
         private System.Windows.Forms.Panel panelLogo;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label labelLogoName;
         private System.Windows.Forms.Panel panelGameInfo;
         private System.Windows.Forms.Label labelGameInfo;
-        private System.Windows.Forms.Label labelLogoName;
-        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
-
