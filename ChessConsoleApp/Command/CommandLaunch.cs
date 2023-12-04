@@ -1,6 +1,8 @@
-﻿using ChessConsoleApp.Tests;
+﻿using ChessConsoleApp.Command.Assistant;
+using ChessConsoleApp.Tests;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ChessConsoleApp.Command
 {
@@ -10,12 +12,19 @@ namespace ChessConsoleApp.Command
         {
             switch (item)
             {
-                case "help":
-                    Console.WriteLine("This is help.");
+                case "exit":
+                    Process.GetCurrentProcess().Kill();
+                    break;                        
+                case "clear":
+                    Console.Clear();
                     break;
-                case "testFigureTest":
-                    FigureModelTests launch = new FigureModelTests();
-                    launch.GetFigureTest();
+                case "help":
+                    Help help = new Help();
+                    help.ShowHelp();
+                    break;
+                case "FigureTest":
+                    FigureModelTests figure = new FigureModelTests();
+                    figure.GetFigureTest();
                     break;
             }
         }

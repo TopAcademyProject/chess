@@ -12,7 +12,7 @@ namespace ChessConsoleApp
         static void Main(string[] args)
         {
             CommandList cmdList = new CommandList();
-            var cmdHamdler = new Command.CommandHandler(cmdList);
+            var cmdHamdler = new CommandHandler(cmdList);
             Console.WriteLine("Console application started!");
             while (true)
             {
