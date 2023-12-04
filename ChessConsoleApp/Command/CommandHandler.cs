@@ -11,9 +11,9 @@ namespace ChessConsoleApp.Command
     {
         #region import command lists
         CommandList cmdList = new CommandList();
-        public CommandHandler(CommandList cmdList)
+        public CommandHandler()
         {
-            this.cmdList = cmdList;
+            this.cmdList = new CommandList();
         }
         #endregion
         #region methods & handlers
