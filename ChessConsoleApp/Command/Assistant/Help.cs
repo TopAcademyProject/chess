@@ -14,6 +14,7 @@ namespace ChessConsoleApp.Command.Assistant
         public void ShowHelp()
         {
             Console.WriteLine("\t\t" + "Help list");
+            Console.WriteLine("Syntax \"command command:argument\" to call a function\n");
             string tmp = null;
             foreach (var command in list.CommandArg)
             {

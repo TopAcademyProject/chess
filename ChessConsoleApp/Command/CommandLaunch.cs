@@ -8,7 +8,7 @@ namespace ChessConsoleApp.Command
 {
     public class CommandLaunch
     {
-        public void ExecuteFn(string item)
+        public void Run(string item)
         {
             switch (item)
             {
