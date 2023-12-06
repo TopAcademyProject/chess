@@ -79,6 +79,8 @@
     <Compile Include="Command\CommandLaunch.cs" />
     <Compile Include="Command\CommandHandler.cs" />
     <Compile Include="Command\CommandList.cs" />
+    <Compile Include="Command\NewCommand.cs" />
+    <Compile Include="Command\Test.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\FigureModelTests.cs" />

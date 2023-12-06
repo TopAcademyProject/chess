@@ -1,0 +1,11 @@
+{
+  "_command": "Test",
+  "_argument": null,
+  "_hasArgument": {
+    "gdsg": {
+      "_command": "Test",
+      "_argument": "test",
+      "_hasArgument": null
+    }
+  }
+}
