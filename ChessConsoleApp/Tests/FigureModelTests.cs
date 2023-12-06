@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChessConsoleApp.Command;
+using Newtonsoft.Json;
 
 namespace ChessConsoleApp.Tests
 {
     public class FigureModelTests
     {
-        public void GetFigureTest ()
+        public void RunTest ()
         {
-            Console.WriteLine("Figure Model Test start");
-            Console.WriteLine("Select test: ");
+            Command.Command cmd = new Command.Command();
+            cmd.Test();
 
         }
     }

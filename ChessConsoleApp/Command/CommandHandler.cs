@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ChessConsoleApp.Command
@@ -58,7 +60,7 @@ namespace ChessConsoleApp.Command
                         }
                         catch (Exception)
                         {
-                            Console.WriteLine($"Warning: {cmd} has not arguments. Please see #help.");
+                            Console.WriteLine($"Warning: {cmd} has not arguments or callback with error. Please see #help.");
                         }
                         break;
                     }

@@ -24,7 +24,7 @@ namespace ChessConsoleApp.Command
                     break;
                 case "FigureTest":
                     FigureModelTests figure = new FigureModelTests();
-                    figure.GetFigureTest();
+                    figure.RunTest();
                     break;
             }
         }
