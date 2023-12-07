@@ -16,5 +16,22 @@ namespace Chess
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Кнопка выхода из меню
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonQuit_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Вы действительно хотите выйти?", "Выход", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+
+
+        }
+
     }
 }
