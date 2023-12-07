@@ -6,6 +6,18 @@ using System.Threading.Tasks;
 
 namespace ChessClassLibrary
 {
+    enum Piece
+    {WPAWN,BPAWN,WROOK,BROOK,WBISHOP,BBISHOP,WKNIGHT,BKNIGHT,WQUEEN,BQUEEN,WKING,BKING,NONE }
+    enum Castle
+    {WSHORT,BSHORT,WLONG,BLONG, NONE }
+    enum Promotion
+    {WKNIGHT,BKNIGHT,WBISHOP,BBISHOP,WROOK,BROOK,WQUEEN,BQUENN,NONE }
+
+    public int X1;
+
+
+
+
     public abstract class Figure
     {
         private int _id;
