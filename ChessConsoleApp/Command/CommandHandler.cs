@@ -12,11 +12,12 @@ namespace ChessConsoleApp.Command
     public class CommandHandler
     {
         #region import command lists
+        private const string APP_NAME = "Application Testing Console";
+        private const string VERSION = "VER 0.0.1 APLHA";
+        public string GetAppName() => APP_NAME;
+        public string GetAppVersion() => VERSION;
         CommandList cmdList = new CommandList();
-        public CommandHandler()
-        {
-            this.cmdList = new CommandList();
-        }
+        public CommandHandler() => cmdList = new CommandList();
         #endregion
         #region methods & handlers
         public void Handle(string cmd)
