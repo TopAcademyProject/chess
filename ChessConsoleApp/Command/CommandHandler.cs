@@ -12,10 +12,8 @@ namespace ChessConsoleApp.Command
     public class CommandHandler
     {
         #region import command lists
-        private const string APP_NAME = "Application Testing Console";
-        private const string VERSION = "VER 0.0.1 APLHA";
-        public string GetAppName() => APP_NAME;
-        public string GetAppVersion() => VERSION;
+        public const string APP_NAME = "Application Testing Console";
+        public const string VERSION = "VER 0.0.1 APLHA";
         CommandList cmdList = new CommandList();
         public CommandHandler() => cmdList = new CommandList();
         #endregion

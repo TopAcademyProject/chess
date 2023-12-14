@@ -11,13 +11,13 @@ namespace ChessConsoleApp.Command
         private List<string> _command = new List<string>()
         {
             "help",
-            "test",
+            "run",
         };
         private List<string> _commandArg = new List<string>()
         {
             "help:"+" "+"View help list",
             "clear:"+" "+"Clear console",
-            "test:FigureTest" + " " + "Test",
+            "test:run" + " " + "Test",
         };
         private List<string> _defaultCommand = new List<string>()
         {

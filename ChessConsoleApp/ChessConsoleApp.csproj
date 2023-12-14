@@ -83,7 +83,7 @@
     <Compile Include="Command\Test.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\FigureModelTests.cs" />
+    <Compile Include="Tests\CommandTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

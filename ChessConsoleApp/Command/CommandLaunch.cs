@@ -22,11 +22,8 @@ namespace ChessConsoleApp.Command
                     Help help = new Help();
                     help.ShowHelp();
                     break;
-                case "FigureTest":
-                    //FigureModelTests figure = new FigureModelTests();
-                    //figure.RunTest();
-                    NewCommand test = new NewCommand();
-                    test.Run();
+                case "run":
+                    CommandTest commandTest = new CommandTest();
                     break;
             }
         }

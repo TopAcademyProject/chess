@@ -12,7 +12,7 @@ namespace ChessConsoleApp
         static void Main(string[] args)
         {
             CommandHandler cmdHamdler = new CommandHandler();
-            Console.WriteLine($"{cmdHamdler.GetAppName()} ({cmdHamdler.GetAppVersion()}) started!");
+            Console.WriteLine($"{CommandHandler.APP_NAME} ({CommandHandler.VERSION}) started!");
             while (true)
             {
                 Console.Write("#");
