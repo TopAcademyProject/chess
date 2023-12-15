@@ -32,7 +32,11 @@ namespace ChessConsoleApp.Command
         public void Register(string command)
         {
             var tmp = Load();
-            if (!tmp.Commands.ContainsKey(command)) tmp.Commands.Add(command, new List<string> { });
+            if (!tmp.Commands.ContainsKey(command))
+            {
+                tmp.Commands.Add(command, new List<string> { });
+                Console.WriteLine($"Command \"{command}\" registered. Add arguments to work with this command using the method \"cmd:append\".");
+            }
             else Console.WriteLine($"Command \"{command}\" already exists.");
             Save(tmp);
         }
@@ -57,7 +61,7 @@ namespace ChessConsoleApp.Command
                         {
                             arguments.Add(j);
                         }
-                        Console.WriteLine($"Argument \"{argument}\" for command \"{command}\" added successfuly");
+                        Console.WriteLine($"Argument \"{argument}\" for command \"{command}\" added successfuly.");
                         arguments.Add(argument);
                         tmp.Commands.Remove(command);
                         tmp.Commands.Add(command, arguments);
@@ -67,7 +71,7 @@ namespace ChessConsoleApp.Command
                     else Console.WriteLine($"This argument already exists.");
                 }
             }
-            if (!commandFound) Console.WriteLine($"Command {command} not found");
+            if (!commandFound) Console.WriteLine($"Command {command} not found.");
         }
         public void Addition()
         {
@@ -81,7 +85,7 @@ namespace ChessConsoleApp.Command
         }
         public void Registration()
         {
-            Console.WriteLine("Enter a name for the new command: ");
+            Console.Write("Enter a name for the new command: ");
             Console.ForegroundColor = ConsoleColor.Yellow;
             string command = Console.ReadLine();
             Console.ResetColor();
@@ -110,19 +114,15 @@ namespace ChessConsoleApp.Command
                         try
                         {
                             if (userInputSplited[1] != null)
-                            {
-                                if (JSONFile.Commands[userInputSplited[0]].Contains(userInputSplited[1])) commandLaunch.Launch(userInput);                        
-                            }
-                        } catch (Exception)
+                                if (JSONFile.Commands[userInputSplited[0]].Contains(userInputSplited[1])) commandLaunch.Launch(userInput);
+                        } 
+                        catch (Exception)
                         {
                             Console.WriteLine($"Error excepted. Command {userInput} has not arguments.");
                         }
                     }
                 }
-                if (!commandFound)
-                {
-                    Console.WriteLine($"Error: Command {userInput} undefined.");
-                }
+                if (!commandFound) Console.WriteLine($"Error: Command {userInput} undefined.");
             }
         }
     }
