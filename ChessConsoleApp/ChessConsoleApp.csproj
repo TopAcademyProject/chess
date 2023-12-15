@@ -78,7 +78,6 @@
     <Compile Include="Command\Command.cs" />
     <Compile Include="Command\CommandLaunch.cs" />
     <Compile Include="Command\CommandHandler.cs" />
-    <Compile Include="Command\CommandList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

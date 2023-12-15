@@ -12,7 +12,10 @@ namespace ChessConsoleApp
         static void Main(string[] args)
         {
             CommandHandler cmdHamdler = new CommandHandler();
-            Console.WriteLine($"{CommandHandler.APP_NAME} ({CommandHandler.VERSION}) started!");
+            Console.Write($"{CommandHandler.APP_NAME} started! ");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine($"{CommandHandler.VERSION}");
+            Console.ResetColor();
             while (true)
             {
                 Console.Write("#");

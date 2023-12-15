@@ -9,11 +9,28 @@ namespace ChessConsoleApp.Command
     {
         public void Launch(string item)
         {
+            #region Validation
+            bool hasArgument = false;
+            var command = item.Split(' ')[0];
+            string argument = null;
+            try
+            {
+                if (item.Split(' ')[1] != "")
+                {
+                    argument = item.Split(' ')[1];
+                    hasArgument = true;
+                }
+            }
+            catch 
+            {
+
+            }
+            #endregion
             #region Declaring Class Instances
             Help help = new Help();
             CommandHandler handler = new CommandHandler();
             #endregion
-            switch (item)
+            switch (command)
             {
 
                 /* 
@@ -36,16 +53,43 @@ namespace ChessConsoleApp.Command
                 case "help":
                     help.ShowHelp();
                     break;
+                case "version":
+                    Console.WriteLine($"Application version {CommandHandler.VERSION}, command version {Command.VERSION}.");
+                    break;
                 case "cmd:append":
-                    handler.Addition();
+                    if (hasArgument) handler.Append(argument);
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write("Example: ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write("cmd:register ");
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("otherCommand:otherArgument");
+                        Console.ResetColor();
+                    }
                     break;
                 case "cmd:register":
-                    handler.Registration();
+                    if (hasArgument) handler.Register(argument);
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write("Example: ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write("cmd:append ");
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("newCommand");
+                        Console.ResetColor();
+                    }
                     break;
                 #endregion
 
                 default:
-                    Console.WriteLine($"The function call method for {item} undefined.");
+                    Console.Write($"The function call method for");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write($" \"{item}\" ");
+                    Console.ResetColor();
+                    Console.WriteLine("undefined.");
                     break;
             }
         }
