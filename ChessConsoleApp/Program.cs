@@ -16,7 +16,10 @@ namespace ChessConsoleApp
             while (true)
             {
                 Console.Write("#");
-                cmdHamdler.Handle(Console.ReadLine());
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                string userInput = Console.ReadLine();
+                Console.ResetColor();
+                cmdHamdler.Handle(userInput);
             }
         }
     }
