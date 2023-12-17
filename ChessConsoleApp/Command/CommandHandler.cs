@@ -13,19 +13,23 @@ namespace ChessConsoleApp.Command
     {
         public const string APP_NAME = "Application Testing Console";
         public const string VERSION = "1.0";
+        public string[] DEFAULT_COMMANDS =
+        {
+            "help", "exit", "clear", "version",
+            "cmd:register",
+            "cmd:append",
+            "cmd:remove",
+            "cmd:delete",
+            "cmd:convert",
+        };
         public string[] CONVERTABLE_VERSIONS = { null };
-        public string[] COMPATIBILITY = { "1.0", "2.0" };
+        public string[] COMPATIBILITY = { "1.0", "1.0" };
 
         JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
         private Command Initializate()
         {
             Command command = new Command();
             command.CommandVersion = VERSION;
-            command.Commands.Add("help", new List<string> { null, "built-in" });
-            command.Commands.Add("clear", new List<string> { null, "built-in" });
-            command.Commands.Add("exit", new List<string> { null, "built-in" });
-            command.Commands.Add("version", new List<string> { null, "built-in" });
-            command.Commands.Add("cmd", new List<string> { "built-in", "register", "append", "remove", "delete", "convert" }); 
             return command;
         }
         public void Register(string command)
@@ -59,6 +63,7 @@ namespace ChessConsoleApp.Command
         }
         public void Append(string commandWithArgument)
         {
+            Console.WriteLine("DDF");
             string command;
             string argument;
             if (commandWithArgument.Split(':')[1] != null)
@@ -120,19 +125,70 @@ namespace ChessConsoleApp.Command
         }
         public void Save(Command cmd) => File.WriteAllText(Command.PATH, JsonSerializer.Serialize(cmd, options));
         public Command Load() => File.Exists(Command.PATH) ? JsonSerializer.Deserialize<Command>(File.ReadAllText(Command.PATH)) : Initializate();
+        private Command Convert(Command CMD)
+        {
+            Console.WriteLine("Comming soon...");
+            return null;
+        }
+        private bool CheckCommandVersion()
+        {
+            var version = Load().CommandVersion;
+            if (version == Command.VERSION) return true;
+            else if(version != Command.VERSION)
+            {
+                for (int i = 0; i < CONVERTABLE_VERSIONS.Length - 1; i++)
+                {
+                    if(version == CONVERTABLE_VERSIONS[i]) return false;
+                    if(version == CONVERTABLE_VERSIONS[i])
+                    {
+                        Console.Write("Conversion required. Enter \"yes\" (y) to convert: ");
+                        string input = Console.ReadLine();
+                        if (input == "yes" || input == "y")
+                        {
+                            Convert(Load());
+                            return false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Conversion required, operation not possible.");
+                            return true;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
 
         public void Handle(string userInput)
         {
-            var JSONFile = Load();
-            CommandLauncher commandLauncher = new CommandLauncher();
-            if (JSONFile.CommandVersion != Command.VERSION)
-            {
-                Console.WriteLine($"Error: The command version ({JSONFile.CommandVersion}) does not match the current version ({Command.VERSION}). ");
-                return;
-            }
-            bool commandFound = false;
             if (userInput != "")
             {
+
+                bool commandFound = false;
+                CommandLauncher commandLauncher = new CommandLauncher();
+                #region handling default commands
+                {
+                    bool found = false;
+                    string cmd = userInput.Split(' ')[0];
+                    for (int i = 0; i < DEFAULT_COMMANDS.Length - 1; i++)
+                    {
+                        Console.WriteLine(DEFAULT_COMMANDS[i]);
+                        if (cmd.Split(':')[0] == DEFAULT_COMMANDS[i].Split(':')[0])
+                        {
+                            if (cmd.Split(' ')[0] == DEFAULT_COMMANDS[i])
+                            {
+                                Console.WriteLine("DEFAULT => " + DEFAULT_COMMANDS[i] + " |  INPUT => " + cmd.Split(' ')[0]);
+                                commandLauncher.Launch(userInput);
+                                found = true;
+                            }
+                        }
+                        if (found) return;
+                    }
+                }
+                #endregion
+                #region handling custom commands
+                var JSONFile = Load();
+                if (CheckCommandVersion()) return;
                 string uisp = userInput.Split(' ')[0];
                 string[] userInputSplited = uisp.Split(':');
                 if (JSONFile.Commands.ContainsKey(userInputSplited[0]))
@@ -172,6 +228,7 @@ namespace ChessConsoleApp.Command
                     Console.ResetColor();
                     Console.WriteLine($" undefined.");
                 }
+                #endregion
             }
         }
     }
