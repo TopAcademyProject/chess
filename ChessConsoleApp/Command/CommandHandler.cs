@@ -12,10 +12,11 @@ namespace ChessConsoleApp.Command
     public class CommandHandler
     {
         public const string APP_NAME = "Application Testing Console";
-        public const string VERSION = "1.0";
+        public const string VERSION = "1.1";
         public string[] DEFAULT_COMMANDS =
         {
-            "help", "exit", "clear", "version",
+            "help", "exit", "clear",
+            "cmd:vertion",
             "cmd:register",
             "cmd:append",
             "cmd:remove",
@@ -23,7 +24,7 @@ namespace ChessConsoleApp.Command
             "cmd:convert",
         };
         public string[] CONVERTABLE_VERSIONS = { null };
-        public string[] COMPATIBILITY = { "1.0", "1.0" };
+        public string[] COMPATIBILITY = { "1.0", "1.1" };
 
         JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
         private Command Initializate()
@@ -39,7 +40,6 @@ namespace ChessConsoleApp.Command
             if (!tmp.Commands.ContainsKey(command))
             {
                 tmp.Commands.Add(command, new List<string> { });
-
                 Console.Write($"Command ");
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write($"\"{cmd}\"");
@@ -49,7 +49,6 @@ namespace ChessConsoleApp.Command
                 Console.Write($"\"cmd:append\"");
                 Console.ResetColor();
                 Console.WriteLine(".");
-
             }
             else
             {
@@ -125,45 +124,56 @@ namespace ChessConsoleApp.Command
         }
         public void Save(Command cmd) => File.WriteAllText(Command.PATH, JsonSerializer.Serialize(cmd, options));
         public Command Load() => File.Exists(Command.PATH) ? JsonSerializer.Deserialize<Command>(File.ReadAllText(Command.PATH)) : Initializate();
-        private Command Convert(Command CMD)
+        public Command Convert(Command cmd)
         {
             Console.WriteLine("Comming soon...");
             return null;
         }
-        private bool CheckCommandVersion()
+        private Command CheckCommandVersion(Command cmd)
         {
-            var version = Load().CommandVersion;
-            if (version == Command.VERSION) return true;
+            var version = cmd.CommandVersion;
+            string userInput;
+            if (version == Command.VERSION) return cmd;
             else if(version != Command.VERSION)
             {
-                for (int i = 0; i < CONVERTABLE_VERSIONS.Length - 1; i++)
+                for (int i = 0; i < COMPATIBILITY.Length; i++) if(version == COMPATIBILITY[i]) return cmd;
+                for (int i = 0; i < CONVERTABLE_VERSIONS.Length; i++)
                 {
-                    if(version == CONVERTABLE_VERSIONS[i]) return false;
-                    if(version == CONVERTABLE_VERSIONS[i])
+                    if (version == CONVERTABLE_VERSIONS[i])
                     {
                         Console.Write("Conversion required. Enter \"yes\" (y) to convert: ");
-                        string input = Console.ReadLine();
-                        if (input == "yes" || input == "y")
-                        {
-                            Convert(Load());
-                            return false;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Conversion required, operation not possible.");
-                            return true;
-                        }
+                        userInput = Console.ReadLine();
+                        if (userInput == "yes" || userInput == "y") {
+                            Console.Write("#");
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine("cmd:convert");
+                            Console.ResetColor();
+                            return Convert(cmd);
+                        };
                     }
                 }
             }
-            return true;
+            Console.Write("Continuing to work with custom commands is impossible!\nTo recreate, enter \"yes\" (y): ");
+            userInput = Console.ReadLine();
+            if(userInput == "yes" || userInput == "y")
+            {
+                Console.Write("The commands will be overwritten, are you sure? Entes \"yes\"(y) or \"no\": ");
+                userInput = Console.ReadLine();
+                if (userInput == "yes" || userInput == "y")
+                {
+                    Command initializatedCmd = Initializate();
+                    Save(initializatedCmd);
+                    return initializatedCmd;
+                }
+            }
+            Console.WriteLine($"Continuing to work with the file is impossible.");
+            return null;
         }
 
         public void Handle(string userInput)
         {
             if (userInput != "")
             {
-
                 bool commandFound = false;
                 CommandLauncher commandLauncher = new CommandLauncher();
                 #region handling default commands
@@ -172,12 +182,10 @@ namespace ChessConsoleApp.Command
                     string cmd = userInput.Split(' ')[0];
                     for (int i = 0; i < DEFAULT_COMMANDS.Length - 1; i++)
                     {
-                        Console.WriteLine(DEFAULT_COMMANDS[i]);
                         if (cmd.Split(':')[0] == DEFAULT_COMMANDS[i].Split(':')[0])
                         {
                             if (cmd.Split(' ')[0] == DEFAULT_COMMANDS[i])
                             {
-                                Console.WriteLine("DEFAULT => " + DEFAULT_COMMANDS[i] + " |  INPUT => " + cmd.Split(' ')[0]);
                                 commandLauncher.Launch(userInput);
                                 found = true;
                             }
@@ -188,7 +196,7 @@ namespace ChessConsoleApp.Command
                 #endregion
                 #region handling custom commands
                 var JSONFile = Load();
-                if (CheckCommandVersion()) return;
+                if (CheckCommandVersion(JSONFile) == null) return;
                 string uisp = userInput.Split(' ')[0];
                 string[] userInputSplited = uisp.Split(':');
                 if (JSONFile.Commands.ContainsKey(userInputSplited[0]))

@@ -61,7 +61,7 @@ namespace ChessConsoleApp.Command
                 case "help":
                     help.ShowHelp();
                     break;
-                case "version":
+                case "cmd:version":
                     Console.WriteLine($"{CommandHandler.APP_NAME} v{CommandHandler.VERSION}, command version v{Command.VERSION}.");
                     break;
                 case "cmd:append":
