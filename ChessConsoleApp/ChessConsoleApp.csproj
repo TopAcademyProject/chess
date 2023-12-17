@@ -76,7 +76,7 @@
   <ItemGroup>
     <Compile Include="Command\Assistant\Help.cs" />
     <Compile Include="Command\Command.cs" />
-    <Compile Include="Command\CommandLaunch.cs" />
+    <Compile Include="Command\CommandLauncher.cs" />
     <Compile Include="Command\CommandHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -13,18 +13,19 @@ namespace ChessConsoleApp.Command
     {
         public const string APP_NAME = "Application Testing Console";
         public const string VERSION = "1.0";
+        public string[] CONVERTABLE_VERSIONS = { null };
+        public string[] COMPATIBILITY = { "1.0", "2.0" };
 
         JsonSerializerOptions options = new JsonSerializerOptions { WriteIndented = true };
         private Command Initializate()
         {
             Command command = new Command();
+            command.CommandVersion = VERSION;
             command.Commands.Add("help", new List<string> { null, "built-in" });
             command.Commands.Add("clear", new List<string> { null, "built-in" });
             command.Commands.Add("exit", new List<string> { null, "built-in" });
             command.Commands.Add("version", new List<string> { null, "built-in" });
-            command.Commands.Add("cmd", new List<string> { "built-in", "register", "append", "remove", "delete" });
-
-            Save(command);
+            command.Commands.Add("cmd", new List<string> { "built-in", "register", "append", "remove", "delete", "convert" }); 
             return command;
         }
         public void Register(string command)
@@ -123,7 +124,12 @@ namespace ChessConsoleApp.Command
         public void Handle(string userInput)
         {
             var JSONFile = Load();
-            CommandLaunch commandLaunch = new CommandLaunch();
+            CommandLauncher commandLauncher = new CommandLauncher();
+            if (JSONFile.CommandVersion != Command.VERSION)
+            {
+                Console.WriteLine($"Error: The command version ({JSONFile.CommandVersion}) does not match the current version ({Command.VERSION}). ");
+                return;
+            }
             bool commandFound = false;
             if (userInput != "")
             {
@@ -132,13 +138,13 @@ namespace ChessConsoleApp.Command
                 if (JSONFile.Commands.ContainsKey(userInputSplited[0]))
                 {
                     commandFound = true;
-                    if (JSONFile.Commands[userInputSplited[0]].Contains(null)) commandLaunch.Launch(userInput);
+                    if (JSONFile.Commands[userInputSplited[0]].Contains(null)) commandLauncher.Launch(userInput);
                     else
                     {
                         try
                         {
                             if (userInputSplited[1] != null)
-                                if (JSONFile.Commands[userInputSplited[0]].Contains(userInputSplited[1])) commandLaunch.Launch(userInput);
+                                if (JSONFile.Commands[userInputSplited[0]].Contains(userInputSplited[1])) commandLauncher.Launch(userInput);
                                 else
                                 {
                                     Console.Write($"Command argument ");

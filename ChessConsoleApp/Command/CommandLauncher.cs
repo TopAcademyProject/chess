@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace ChessConsoleApp.Command
 {
-    public class CommandLaunch
+    public class CommandLauncher
     {
         public void Launch(string item)
         {
@@ -21,10 +21,7 @@ namespace ChessConsoleApp.Command
                     hasArgument = true;
                 }
             }
-            catch 
-            {
-
-            }
+            catch { }
             #endregion
             #region Declaring Class Instances
             Help help = new Help();
@@ -32,16 +29,27 @@ namespace ChessConsoleApp.Command
             #endregion
             switch (command)
             {
-
                 /* 
-                 * Для корректной работы консоли, пожалуйста, не удаляйте кейсы из региона Default
+                 * Из обработчика команд в класс запуска команд передаётся команда "item" типом string, в функции Launch
+                 * команда проходит валидацию на наличие дополнительного аргумента (Например, команда:агрумент дополнительныйАргумент) и,
+                 * если аргумент есть, переменная hasArgument будет true. Примером будет команда cmd:register, где дополнительным
+                 * аргументом передаётся новая команда.
+                 * 
+                 * Для корректной работы консоли, пожалуйста, не удаляйте кейсы из региона Default.
+                 * Добавляйте свои методы в регионе Custom. 
                  * Чтобы добавить новый метод вызова, используйте такой шаблон:
                  * 
                  * case "exampleCommand:exampleArgument"
                  *      //methods
                  *      break;
+                 *      
+                 * Рекомендуется объявлять новые экземпляры классов в регионе Declaring Class Instances.
                  */
-
+                #region Custom
+                /*
+                 * Здесь описываются новые методы вызова
+                 */
+                #endregion
                 #region Default
                 case "exit":
                     Console.WriteLine("GoodBye");
@@ -54,7 +62,7 @@ namespace ChessConsoleApp.Command
                     help.ShowHelp();
                     break;
                 case "version":
-                    Console.WriteLine($"Application version {CommandHandler.VERSION}, command version {Command.VERSION}.");
+                    Console.WriteLine($"{CommandHandler.APP_NAME} v{CommandHandler.VERSION}, command version v{Command.VERSION}.");
                     break;
                 case "cmd:append":
                     if (hasArgument) handler.Append(argument);
@@ -82,8 +90,6 @@ namespace ChessConsoleApp.Command
                         Console.ResetColor();
                     }
                     break;
-                #endregion
-
                 default:
                     Console.Write($"The function call method for");
                     Console.ForegroundColor = ConsoleColor.Yellow;
@@ -91,6 +97,7 @@ namespace ChessConsoleApp.Command
                     Console.ResetColor();
                     Console.WriteLine("undefined.");
                     break;
+                #endregion
             }
         }
     }

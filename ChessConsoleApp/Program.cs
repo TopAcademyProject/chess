@@ -14,7 +14,7 @@ namespace ChessConsoleApp
             CommandHandler cmdHamdler = new CommandHandler();
             Console.Write($"{CommandHandler.APP_NAME} started! ");
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($"{CommandHandler.VERSION}");
+            Console.WriteLine($"App version {CommandHandler.VERSION}");
             Console.ResetColor();
             while (true)
             {
