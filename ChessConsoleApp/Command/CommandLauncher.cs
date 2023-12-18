@@ -1,6 +1,5 @@
 ﻿using ChessConsoleApp.Command.Assistant;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace ChessConsoleApp.Command
@@ -54,7 +53,7 @@ namespace ChessConsoleApp.Command
                 case "exit":
                     Console.WriteLine("GoodBye");
                     Process.GetCurrentProcess().Kill();
-                    break;                        
+                    break;
                 case "clear":
                     Console.Clear();
                     break;

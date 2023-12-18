@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace ChessConsoleApp.Command
 {
@@ -57,7 +53,7 @@ namespace ChessConsoleApp.Command
                 Console.Write($"\"{cmd}\"");
                 Console.ResetColor();
                 Console.WriteLine($" already exists.");
-            } 
+            }
             Save(tmp);
         }
         public void Append(string commandWithArgument)
@@ -217,7 +213,7 @@ namespace ChessConsoleApp.Command
                                     Console.ResetColor();
                                     Console.WriteLine($" not registered.");
                                 }
-                        } 
+                        }
                         catch (Exception)
                         {
                             Console.Write($"Command ");
