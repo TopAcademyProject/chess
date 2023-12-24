@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Chess;
 
 namespace Chess.Forms
 {
@@ -16,6 +17,8 @@ namespace Chess.Forms
         {
             InitializeComponent();
             chessSprites = new Bitmap("..\\..\\assets\\chess.png");
+            DebugField.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            DebugPlayer.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
             Init();
         }
         public Image chessSprites;
@@ -94,6 +97,7 @@ namespace Chess.Forms
 
         public void OnFigurePress(object sender, EventArgs e)
         {
+            UpdateDebugFields();
             if (prevButton != null)
                 prevButton.BackColor = Color.White;
 
@@ -136,6 +140,25 @@ namespace Chess.Forms
             }
 
             prevButton = pressedButton;
+        }
+
+        private void UpdateDebugFields()
+        {
+            string str = "";
+
+            for (int i = 0; i < 8; i++)
+            {
+                for(int ii = 0; ii < 8; ii++)
+                {
+                    if (map[i, ii] <= 10) str += "0" + map[i, ii];
+                    else str += map[i, ii];
+                    str+= " ";
+                }
+                str += "\n";
+            }
+            DebugField.Text = str;
+            DebugPlayer.Text = currPlayer.ToString();
+            return;
         }
 
         public void ShowSteps(int IcurrFigure, int JcurrFigure, int currFigure)
@@ -397,6 +420,7 @@ namespace Chess.Forms
             if (currPlayer == 1)
                 currPlayer = 2;
             else currPlayer = 1;
+            UpdateDebugFields();
         }
 
         private void button1_Click(object sender, EventArgs e)

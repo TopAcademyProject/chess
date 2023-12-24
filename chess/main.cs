@@ -18,7 +18,7 @@ namespace Chess
         private int tempIndex;
         private Form activeForm;
         private bool fieldActive;
-        private Font font = new Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+        public Font mainFont = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
         public main()
         {
             InitializeComponent();
@@ -45,7 +45,7 @@ namespace Chess
                     Color color = SelectThemeColor();
                     currentButton.BackColor = color;
                     currentButton.ForeColor = Color.White;
-                    currentButton.Font = font;
+                    currentButton.Font = mainFont;
                 }
             }
         }
@@ -57,7 +57,7 @@ namespace Chess
                 {
                     previousBtn.BackColor= Color.FromArgb(51,51,76);
                     previousBtn.ForeColor= Color.White;
-                    previousBtn.Font = font;
+                    previousBtn.Font = mainFont;
                 }
             }
         }
