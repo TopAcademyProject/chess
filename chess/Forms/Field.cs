@@ -422,11 +422,5 @@ namespace Chess.Forms
             else currPlayer = 1;
             UpdateDebugFields();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Controls.Clear();
-            Init();
-        }
     }
 }
