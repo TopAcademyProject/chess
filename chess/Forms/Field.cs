@@ -13,6 +13,9 @@ namespace Chess.Forms
 {
     public partial class Field : Form
     {
+        public int scoreFirst  = 0;
+        public int scoreSecond = 0;
+        public Font mainFont = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
         public Field()
         {
             InitializeComponent();
@@ -56,6 +59,8 @@ namespace Chess.Forms
             {25,24,23,22,21,23,24,25 },
             };
             currPlayer = 1;
+            UpdateInformationLabels();
+            UpdateDebugFields();
             CreateMap();
         }
 
@@ -94,6 +99,14 @@ namespace Chess.Forms
                 }
             }
         }
+        public void UpdateInformationLabels()
+        {
+            ScoreFisrtLabel.Font = mainFont; ScoreSecondLabel.Font = mainFont; CurrentPlayerLabel.Font = mainFont;
+            ScoreFisrtLabel.Text  = $"First player score: {scoreFirst}";
+            ScoreSecondLabel.Text = $"Second player score: {scoreSecond}";
+            if (currPlayer == 1) CurrentPlayerLabel.Text = $"Current player: white";
+            else                 CurrentPlayerLabel.Text = $"Current player: black";
+        }
 
         public void OnFigurePress(object sender, EventArgs e)
         {
@@ -129,7 +142,13 @@ namespace Chess.Forms
                 {
                     int temp = map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50];
                     map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50] = map[prevButton.Location.Y / 50, prevButton.Location.X / 50];
-                    map[prevButton.Location.Y / 50, prevButton.Location.X / 50] = temp;
+                    if(temp % 10 != 00)
+                    {
+                        map[prevButton.Location.Y / 50, prevButton.Location.X / 50] = 00;
+                        if (currPlayer == 1) scoreFirst++;
+                        else scoreSecond++;
+                    }
+                    else map[prevButton.Location.Y / 50, prevButton.Location.X / 50] = temp;
                     pressedButton.BackgroundImage = prevButton.BackgroundImage;
                     prevButton.BackgroundImage = null;
                     isMoving = false;
@@ -138,7 +157,6 @@ namespace Chess.Forms
                     SwitchPlayer();
                 }
             }
-
             prevButton = pressedButton;
         }
 
@@ -158,7 +176,6 @@ namespace Chess.Forms
             }
             DebugField.Text = str;
             DebugPlayer.Text = currPlayer.ToString();
-            return;
         }
 
         public void ShowSteps(int IcurrFigure, int JcurrFigure, int currFigure)
@@ -417,10 +434,9 @@ namespace Chess.Forms
 
         public void SwitchPlayer()
         {
-            if (currPlayer == 1)
-                currPlayer = 2;
-            else currPlayer = 1;
+            currPlayer = currPlayer == 1 ? 2 : 1;
             UpdateDebugFields();
+            UpdateInformationLabels();
         }
     }
 }
