@@ -10,8 +10,8 @@ namespace ChessClassLibrary
     public class ThemeColor
     {
         public static Color primaryColor { get; set; }
-        public static Color SecondaryColor { get; set; }
-        public static List<string> ColorList = new List<string>() { "#3F51B5",
+        public static Color secondaryColor { get; set; }
+        public static List<string> colorList = new List<string>() { "#3F51B5",
                                                                     "#009688",
                                                                     "#FF5722",
                                                                     "#607D8B",

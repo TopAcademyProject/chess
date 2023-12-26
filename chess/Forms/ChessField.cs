@@ -7,19 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using chess.Properties;
 using Chess;
 
 namespace Chess.Forms
 {
-    public partial class Field : Form
+    public partial class ChessField : Form
     {
         public int scoreFirst  = 0;
         public int scoreSecond = 0;
         public Font mainFont = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
-        public Field()
+        public ChessField()
         {
             InitializeComponent();
-            chessSprites = new Bitmap("..\\..\\assets\\chess.png");
+            //chessSprites = new Bitmap("..\\..\\assets\\chess.png");
+            chessSprites = new Bitmap(Resources.chess);
             DebugField.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
             DebugPlayer.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
             Init();

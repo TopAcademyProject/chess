@@ -1,6 +1,6 @@
 ﻿namespace Chess.Forms
 {
-    partial class Field
+    partial class ChessField
     {
         /// <summary>
         /// Required designer variable.
