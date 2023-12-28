@@ -192,6 +192,7 @@ namespace Chess.Forms
                         {
                             for(int i =0; i < 8; i++)
                             {
+                                //Проверка на белую пешку
                                 if (map[IcurrFigure + 1 * dir, JcurrFigure] == map[1, i])
                                 {
                                     DebugPlayer.Text = "TRUE";
