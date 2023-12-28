@@ -51,14 +51,14 @@ namespace Chess.Forms
         {
             map = new int[8, 8]
             {
-            {15,14,13,12,11,13,14,15 },
-            {16,16,16,16,16,16,16,16 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {26,26,26,26,26,26,26,26 },
-            {25,24,23,22,21,23,24,25 },
+                {15,14,13,12,11,13,14,15 },
+                {16,16,16,16,16,16,16,16 },
+                {0,0,0,0,0,0,0,0 },
+                {0,0,0,0,0,0,0,0 },
+                {0,0,0,0,0,0,0,0 },
+                {0,0,0,0,0,0,0,0 },
+                {26,26,26,26,26,26,26,26 },
+                {25,24,23,22,21,23,24,25 },
             };
             currPlayer = 1;
             UpdateInformationLabels();
@@ -190,8 +190,23 @@ namespace Chess.Forms
                     {
                         if (map[IcurrFigure + 1 * dir, JcurrFigure] == 0)
                         {
-                            butts[IcurrFigure + 1 * dir, JcurrFigure].BackColor = Color.Yellow;
-                            butts[IcurrFigure + 1 * dir, JcurrFigure].Enabled = true;
+                            for(int i =0; i < 8; i++)
+                            {
+                                if (map[IcurrFigure + 1 * dir, JcurrFigure] == map[1, i])
+                                {
+                                    DebugPlayer.Text = "TRUE";
+                                    butts[IcurrFigure + 1 * dir, JcurrFigure].BackColor = Color.Yellow;
+                                    butts[IcurrFigure + 1 * dir, JcurrFigure].Enabled = true;
+                                    butts[IcurrFigure + 2 * dir, JcurrFigure].BackColor = Color.Yellow;
+                                    butts[IcurrFigure + 2 * dir, JcurrFigure].Enabled = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    butts[IcurrFigure + 1 * dir, JcurrFigure].BackColor = Color.Yellow;
+                                    butts[IcurrFigure + 1 * dir, JcurrFigure].Enabled = true;
+                                }
+                            }
                         }
                     }
 
