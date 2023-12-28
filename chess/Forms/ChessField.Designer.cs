@@ -28,11 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.DebugField = new System.Windows.Forms.Label();
-            this.DebugPlayer = new System.Windows.Forms.Label();
+            this.DebugTimer = new System.Windows.Forms.Label();
             this.ScoreFisrtLabel = new System.Windows.Forms.Label();
             this.ScoreSecondLabel = new System.Windows.Forms.Label();
             this.CurrentPlayerLabel = new System.Windows.Forms.Label();
+            this.SwitchPlayerButton = new System.Windows.Forms.Button();
+            this.DebugInfoLabel = new System.Windows.Forms.Label();
+            this.RoundTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // DebugField
@@ -45,14 +49,14 @@
             this.DebugField.TabIndex = 0;
             this.DebugField.Text = "DEBUG FIELD";
             // 
-            // DebugPlayer
+            // DebugTimer
             // 
-            this.DebugPlayer.AutoSize = true;
-            this.DebugPlayer.Location = new System.Drawing.Point(419, 219);
-            this.DebugPlayer.Name = "DebugPlayer";
-            this.DebugPlayer.Size = new System.Drawing.Size(45, 13);
-            this.DebugPlayer.TabIndex = 1;
-            this.DebugPlayer.Text = "DEBUG";
+            this.DebugTimer.AutoSize = true;
+            this.DebugTimer.Location = new System.Drawing.Point(419, 219);
+            this.DebugTimer.Name = "DebugTimer";
+            this.DebugTimer.Size = new System.Drawing.Size(82, 13);
+            this.DebugTimer.TabIndex = 1;
+            this.DebugTimer.Text = "DEBUG TIMER";
             // 
             // ScoreFisrtLabel
             // 
@@ -81,17 +85,43 @@
             this.CurrentPlayerLabel.TabIndex = 4;
             this.CurrentPlayerLabel.Text = "Player";
             // 
-            // Field
+            // SwitchPlayerButton
+            // 
+            this.SwitchPlayerButton.Location = new System.Drawing.Point(422, 193);
+            this.SwitchPlayerButton.Name = "SwitchPlayerButton";
+            this.SwitchPlayerButton.Size = new System.Drawing.Size(146, 23);
+            this.SwitchPlayerButton.TabIndex = 5;
+            this.SwitchPlayerButton.Text = "SWITCH PLAYER";
+            this.SwitchPlayerButton.UseVisualStyleBackColor = true;
+            this.SwitchPlayerButton.Click += new System.EventHandler(this.SwitchPlayerButton_Click);
+            // 
+            // DebugInfoLabel
+            // 
+            this.DebugInfoLabel.AutoSize = true;
+            this.DebugInfoLabel.Location = new System.Drawing.Point(420, 163);
+            this.DebugInfoLabel.Name = "DebugInfoLabel";
+            this.DebugInfoLabel.Size = new System.Drawing.Size(93, 13);
+            this.DebugInfoLabel.TabIndex = 6;
+            this.DebugInfoLabel.Text = "Debug information";
+            // 
+            // RoundTimer
+            // 
+            this.RoundTimer.Interval = 1000;
+            this.RoundTimer.Tick += new System.EventHandler(this.RoundTimer_Tick);
+            // 
+            // ChessField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.DebugInfoLabel);
+            this.Controls.Add(this.SwitchPlayerButton);
             this.Controls.Add(this.CurrentPlayerLabel);
             this.Controls.Add(this.ScoreSecondLabel);
             this.Controls.Add(this.ScoreFisrtLabel);
-            this.Controls.Add(this.DebugPlayer);
+            this.Controls.Add(this.DebugTimer);
             this.Controls.Add(this.DebugField);
-            this.Name = "Field";
+            this.Name = "ChessField";
             this.Text = "Field";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -101,9 +131,12 @@
         #endregion
 
         private System.Windows.Forms.Label DebugField;
-        private System.Windows.Forms.Label DebugPlayer;
+        private System.Windows.Forms.Label DebugTimer;
         private System.Windows.Forms.Label ScoreFisrtLabel;
         private System.Windows.Forms.Label ScoreSecondLabel;
         private System.Windows.Forms.Label CurrentPlayerLabel;
+        private System.Windows.Forms.Button SwitchPlayerButton;
+        private System.Windows.Forms.Label DebugInfoLabel;
+        private System.Windows.Forms.Timer RoundTimer;
     }
 }
