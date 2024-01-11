@@ -54,6 +54,7 @@
     <Compile Include="Forms\ChessField.Designer.cs">
       <DependentUpon>ChessField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ChessField\Map.cs" />
     <Compile Include="main.cs">
       <SubType>Form</SubType>
     </Compile>

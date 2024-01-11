@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using chess.Forms.ChessField;
 using chess.Properties;
 using Chess;
 
@@ -23,26 +24,16 @@ namespace Chess.Forms
         {
             InitializeComponent();
             chessSprites = new Bitmap(Resources.chess);
-            currPlayer = 1;
+            currPlayer = Player.White;
             UpdateInformationLabels();
             UpdateDebugFields();
             CreateMap();
         }
         public Image chessSprites;
-        public int[,] map = new int[8, 8]
-        {
-            {15,14,13,12,11,13,14,15 },
-            {16,16,16,16,16,16,16,16 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {26,26,26,26,26,26,26,26 },
-            {25,24,23,22,21,23,24,25 },
-        };
+        public GameEngine engine = new GameEngine(new Map());
 
         public Button[,] butts = new Button[8, 8];
-        public int currPlayer;
+        public Player currPlayer;
         public Button prevButton;
         public bool isMoving = false;
         public void CreateMap()
@@ -86,19 +77,24 @@ namespace Chess.Forms
             else                 CurrentPlayerLabel.Text = $"Current player: black";
         }
 
+
         public void OnFigurePress(object sender, EventArgs e)
         {
+
             UpdateDebugFields();
+
+            Button pressedButton = sender as Button;
+            Position clickedCellPosition = new Position(pressedButton.Location.Y / 50, pressedButton.Location.X / 50);
+            
             if (prevButton != null)
                 prevButton.BackColor = Color.White;
-            Button pressedButton = sender as Button;
-            if (map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50] != 0 && map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50] / 10 == currPlayer)
+            if (engine.GetType(clickedCellPosition) != 0 && engine.GetPlayer(clickedCellPosition) == currPlayer)
             {
                 CloseSteps();
                 pressedButton.BackColor = Color.Red;
                 DeactivateAllButtons();
                 pressedButton.Enabled = true;
-                ShowSteps(pressedButton.Location.Y / 50, pressedButton.Location.X / 50, map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50]);
+                ShowSteps(engine.FigureTypeX(clickedCellPosition), engine.FigureTypeY(clickedCellPosition), engine.GetType(clickedCellPosition));
                 if (isMoving)
                 {
                     CloseSteps();
@@ -112,12 +108,12 @@ namespace Chess.Forms
             {
                 if (isMoving)
                 {
-                    int temp = map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50];
-                    map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50] = map[prevButton.Location.Y / 50, prevButton.Location.X / 50];
+                    Position temp = clickedCellPosition;
+                    engine.Map = map[prevButton.Location.Y / 50, prevButton.Location.X / 50];
                     if(temp % 10 != 00)
                     {
                         map[prevButton.Location.Y / 50, prevButton.Location.X / 50] = 00;
-                        if (currPlayer == 1) scoreFirst++;
+                        if (currPlayer == Player.White) scoreFirst++;
                         else scoreSecond++;
                     }
                     else map[prevButton.Location.Y / 50, prevButton.Location.X / 50] = temp;
@@ -142,8 +138,8 @@ namespace Chess.Forms
             {
                 for (int ii = 0; ii < 8; ii++)
                 {
-                    if (map[i, ii] <= 10) str += "0" + map[i, ii];
-                    else str += map[i, ii];
+                    //if (map[i, ii] <= 10) str += "0" + map[i, ii];
+                    //else str += map[i, ii];
                     str += " ";
                 }
                 str += "\n";
@@ -151,9 +147,17 @@ namespace Chess.Forms
             DebugField.Text = str;
         }
 
+        public void ShowSteps(List<Position> requiredToRecolor)
+        {
+            foreach(Position position in requiredToRecolor)
+            {
+                butts[position.X,position.Y].BackColor = Color.Yellow;
+                butts[position.X, position.Y].Enabled = true;
+            }
+        }
         public void ShowSteps(int IcurrFigure, int JcurrFigure, int currFigure)
         {
-            int dir = currPlayer == 1 ? 1 : -1;
+            int dir = currPlayer == Player.White ? 1 : -1;
             switch (currFigure % 10)
             {
                 case 6:
@@ -161,7 +165,7 @@ namespace Chess.Forms
                     {
                         if (map[IcurrFigure + 1 * dir, JcurrFigure] == 0)
                         {
-                            if (IcurrFigure == 1 && currPlayer == 1 || IcurrFigure == 6 && currPlayer == 2)
+                            if (IcurrFigure == 1 && currPlayer == Player.White || IcurrFigure == 6 && currPlayer == Player.Black)
                             {
                                 butts[IcurrFigure + 1 * dir, JcurrFigure].BackColor = Color.Yellow;
                                 butts[IcurrFigure + 2 * dir, JcurrFigure].BackColor = Color.Yellow;
@@ -334,7 +338,7 @@ namespace Chess.Forms
         public void SwitchPlayer()
         {
             RoundTimer.Enabled = true;
-            currPlayer = currPlayer == 1 ? 2 : 1;
+            currPlayer = currPlayer == Player.White ? Player.Black : Player.White;
             UpdateDebugFields();
             UpdateInformationLabels();
         }
