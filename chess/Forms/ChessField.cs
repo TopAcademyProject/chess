@@ -161,17 +161,16 @@ namespace Chess.Forms
                     {
                         if (map[IcurrFigure + 1 * dir, JcurrFigure] == 0)
                         {
-                            if (IcurrFigure == 1 && currPlayer == 1 || IcurrFigure == 6 && currPlayer == 2)
+                            butts[IcurrFigure + 1 * dir, JcurrFigure].BackColor = Color.Yellow;
+                            butts[IcurrFigure + 1 * dir, JcurrFigure].Enabled = true;
+
+                            if ((IcurrFigure == 1 && currPlayer == 1) || (IcurrFigure == 6 && currPlayer == 2))
                             {
-                                butts[IcurrFigure + 1 * dir, JcurrFigure].BackColor = Color.Yellow;
-                                butts[IcurrFigure + 2 * dir, JcurrFigure].BackColor = Color.Yellow;
-                                butts[IcurrFigure + 1 * dir, JcurrFigure].Enabled = true;
-                                butts[IcurrFigure + 2 * dir, JcurrFigure].Enabled = true;
-                            }
-                            else
-                            {
-                                butts[IcurrFigure + 1 * dir, JcurrFigure].BackColor = Color.Yellow;
-                                butts[IcurrFigure + 1 * dir, JcurrFigure].Enabled = true;
+                                if (map[IcurrFigure + 2 * dir, JcurrFigure] == 0)
+                                {
+                                    butts[IcurrFigure + 2 * dir, JcurrFigure].BackColor = Color.Yellow;
+                                    butts[IcurrFigure + 2 * dir, JcurrFigure].Enabled = true;
+                                }
                             }
                         }
                     }
