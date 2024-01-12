@@ -28,7 +28,7 @@
             this.player = player;
         }
 
-
+        public Player Data { get { return player; } }
         public int Value { get => value; set => this.value = value; }
         //public FigureType Value { get => value; set => this.value = value; }
         public Player Player { get => player; set => player = value; }

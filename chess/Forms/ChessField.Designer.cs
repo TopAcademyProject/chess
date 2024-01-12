@@ -37,13 +37,14 @@
             this.SwitchPlayerButton = new System.Windows.Forms.Button();
             this.DebugInfoLabel = new System.Windows.Forms.Label();
             this.RoundTimer = new System.Windows.Forms.Timer(this.components);
+            this.DebugPositionClickedLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // DebugField
             // 
             this.DebugField.AutoSize = true;
             this.DebugField.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DebugField.Location = new System.Drawing.Point(417, 262);
+            this.DebugField.Location = new System.Drawing.Point(418, 282);
             this.DebugField.Name = "DebugField";
             this.DebugField.Size = new System.Drawing.Size(151, 25);
             this.DebugField.TabIndex = 0;
@@ -109,11 +110,21 @@
             this.RoundTimer.Interval = 1000;
             this.RoundTimer.Tick += new System.EventHandler(this.RoundTimer_Tick);
             // 
+            // DebugPositionClickedLabel
+            // 
+            this.DebugPositionClickedLabel.AutoSize = true;
+            this.DebugPositionClickedLabel.Location = new System.Drawing.Point(420, 249);
+            this.DebugPositionClickedLabel.Name = "DebugPositionClickedLabel";
+            this.DebugPositionClickedLabel.Size = new System.Drawing.Size(81, 13);
+            this.DebugPositionClickedLabel.TabIndex = 7;
+            this.DebugPositionClickedLabel.Text = "Position clicked";
+            // 
             // ChessField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.DebugPositionClickedLabel);
             this.Controls.Add(this.DebugInfoLabel);
             this.Controls.Add(this.SwitchPlayerButton);
             this.Controls.Add(this.CurrentPlayerLabel);
@@ -138,5 +149,6 @@
         private System.Windows.Forms.Button SwitchPlayerButton;
         private System.Windows.Forms.Label DebugInfoLabel;
         private System.Windows.Forms.Timer RoundTimer;
+        private System.Windows.Forms.Label DebugPositionClickedLabel;
     }
 }

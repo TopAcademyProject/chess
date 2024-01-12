@@ -22,16 +22,13 @@ namespace chess.Forms.ChessField
                 { new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0) },
                 { new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0) },
                 { new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0) },
-                { new Figure(Player.Black,5),new Figure(Player.Black,4),new Figure(Player.Black,3),new Figure(Player.Black,2),new Figure(Player.Black,1),new Figure(Player.Black,3),new Figure(Player.Black,4),new Figure(Player.Black,5) },
                 { new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6) },
+                { new Figure(Player.Black,5),new Figure(Player.Black,4),new Figure(Player.Black,3),new Figure(Player.Black,2),new Figure(Player.Black,1),new Figure(Player.Black,3),new Figure(Player.Black,4),new Figure(Player.Black,5) },
             };
 
         }
 
-        public Figure GetCell(Position figurePosition)
-        {
-            return Figures[figurePosition.X, figurePosition.Y];
-        }
+        public Figure GetCell(Position figurePosition) => Figures[figurePosition.X, figurePosition.Y];
 
         public Figure[,] Figures { get => figures; set => figures = value; }
     }
