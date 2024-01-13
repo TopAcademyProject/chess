@@ -1,28 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using chess.Forms.ChessField;
+﻿using chess.Forms.ChessField;
 using chess.Properties;
-using Chess;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Chess.Forms
 {
     public partial class ChessField : Form
     {
-        public int scoreFirst  = 0;
+        public int scoreFirst = 0;
         public int scoreSecond = 0;
         public bool timerEnable = false;
         public int timer = 0;
         public Font mainFont = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
         Position clickedCellPosition;
         Position prevClickedCellPosition;
-        Figure tempFigure;
         public ChessField()
         {
             InitializeComponent();
@@ -34,18 +26,20 @@ namespace Chess.Forms
         }
         public Image chessSprites;
         public GameEngine engine = new GameEngine(new Map());
-
         public Button[,] butts = new Button[8, 8];
         public Player currPlayer;
         public Button prevButton;
         public bool isMoving = false;
+
         public void CreateMap()
         {
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    butts[i, j] = new Button();
+                    // Что не так с координатами?
+                    butts[j, i] = new Button();
+                    //butts[i, j] = new Button();
                     Button butt = new Button();
                     butt.Size = new Size(50, 50);
                     butt.Location = new Point(i * 50, j * 50);
@@ -68,14 +62,15 @@ namespace Chess.Forms
                     butt.BackColor = Color.White;
                     butt.Click += new EventHandler(OnFigurePress);
                     this.Controls.Add(butt);
-                    butts[i, j] = butt;
+                    butts[j, i] = butt;
+                    //butts[i, j] = butt;
                 }
             }
         }
         public void UpdateInformationLabels()
         {
             ScoreFisrtLabel.Font = mainFont; ScoreSecondLabel.Font = mainFont; CurrentPlayerLabel.Font = mainFont;
-            ScoreFisrtLabel.Text  = $"First player score: {scoreFirst}";
+            ScoreFisrtLabel.Text = $"First player score: {scoreFirst}";
             ScoreSecondLabel.Text = $"Second player score: {scoreSecond}";
             CurrentPlayerLabel.Text = $"Current player: {currPlayer}";
         }
@@ -87,7 +82,6 @@ namespace Chess.Forms
 
             Button pressedButton = sender as Button;
             clickedCellPosition = new Position(pressedButton.Location.Y / 50, pressedButton.Location.X / 50);
-            
             if (prevButton != null)
                 prevButton.BackColor = Color.White;
             if (engine.GetFigure(clickedCellPosition) != 0 && engine.GetPlayer(clickedCellPosition) == currPlayer)
@@ -110,15 +104,11 @@ namespace Chess.Forms
             {
                 if (isMoving)
                 {
-                    var player = engine.GetPlayer(prevClickedCellPosition);
-
                     var temp = engine.GetFigure(clickedCellPosition);
                     engine.SetFigure(clickedCellPosition, new Figure(currPlayer, engine.GetFigure(prevClickedCellPosition)));
-
-                    if(engine.GetFigure(clickedCellPosition) != 0)
+                    if (temp != 0)
                     {
                         engine.SetFigure(prevClickedCellPosition, new Figure(Player.Empty, 0));
-
                         if (currPlayer == Player.White) scoreFirst++;
                         else scoreSecond++;
                     }
@@ -151,7 +141,7 @@ namespace Chess.Forms
                     if (engine.GetFigure(pos) <= 10)
                     {
                         if (engine.GetPlayer(pos) == Player.White) str += '1';
-                        else if(engine.GetPlayer(pos) == Player.Black) str += "2";
+                        else if (engine.GetPlayer(pos) == Player.Black) str += "2";
                         else str += "0";
                         str += engine.GetFigure(pos);
                     }
@@ -160,77 +150,66 @@ namespace Chess.Forms
                 }
                 str += "\n";
             }
-
-
             DebugField.Text = str;
         }
-
-/*        public void ShowSteps(List<Position> requiredToRecolor)
-        {
-            foreach(Position position in requiredToRecolor)
-            {
-                butts[position.X,position.Y].BackColor = Color.Yellow;
-                butts[position.X, position.Y].Enabled = true;
-            }
-        }*/
-        public void ShowSteps(int IcurrFigure, int JcurrFigure, int currFigure)
+        public void ShowSteps(int row, int col, int currentFigure)
         {
             int playerDefinition = currPlayer == Player.White ? 1 : -1;
-            var positionShift = new Position(IcurrFigure + 1 * playerDefinition, JcurrFigure);
-            switch (currFigure)
+            var positionShift = new Position(row + 1 * playerDefinition, col);
+            switch (currentFigure)
             {
                 case 6:
-                    if (InsideBorder(IcurrFigure + 1 * playerDefinition, JcurrFigure))
+                    if (InsideBorder(row + 1 * playerDefinition, col))
                     {
                         if (engine.GetFigure(positionShift) == 0)
                         {
-                            if (IcurrFigure == 1 && currPlayer == Player.White || IcurrFigure == 6 && currPlayer == Player.Black)
+                            if (row == 1 && currPlayer == Player.White || row == 6 && currPlayer == Player.Black)
                             {
-                                butts[IcurrFigure + 1 * playerDefinition, JcurrFigure].BackColor = Color.Yellow;
-                                butts[IcurrFigure + 2 * playerDefinition, JcurrFigure].BackColor = Color.Yellow;
-                                butts[IcurrFigure + 1 * playerDefinition, JcurrFigure].Enabled = true;
-                                butts[IcurrFigure + 2 * playerDefinition, JcurrFigure].Enabled = true;
+                                butts[row + 1 * playerDefinition, col].BackColor = Color.Yellow;
+                                butts[row + 2 * playerDefinition, col].BackColor = Color.Yellow;
+                                butts[row + 1 * playerDefinition, col].Enabled = true;
+                                butts[row + 2 * playerDefinition, col].Enabled = true;
                             }
                             else
                             {
-                                butts[IcurrFigure + 1 * playerDefinition, JcurrFigure].BackColor = Color.Yellow;
-                                butts[IcurrFigure + 1 * playerDefinition, JcurrFigure].Enabled = true;
+                                butts[row + 1 * playerDefinition, col].BackColor = Color.Yellow;
+                                butts[row + 1 * playerDefinition, col].Enabled = true;
                             }
                         }
                     }
-                    if (InsideBorder(IcurrFigure + 1 * playerDefinition, JcurrFigure + 1))
+                    if (InsideBorder(row + 1 * playerDefinition, col + 1))
                     {
-                        if (engine.GetFigure(positionShift) != 0 && engine.GetPlayer(positionShift) != currPlayer)
+                        if (engine.GetFigure(row + 1 * playerDefinition, col + 1) != 0 && engine.GetPlayer(row + 1*playerDefinition, col + 1) != currPlayer)
                         {
-                            butts[IcurrFigure + 1 * playerDefinition, JcurrFigure + 1].BackColor = Color.Yellow;
-                            butts[IcurrFigure + 1 * playerDefinition, JcurrFigure + 1].Enabled = true;
+                            butts[row + 1 * playerDefinition, col + 1].BackColor = Color.Yellow;
+                            butts[row + 1 * playerDefinition, col + 1].Enabled = true;
                         }
                     }
-                    if (InsideBorder(IcurrFigure + 1 * playerDefinition, JcurrFigure - 1))
+                    if (InsideBorder(row + 1 * playerDefinition, col - 1))
                     {
-                        if (engine.GetFigure(positionShift) != 0 && engine.GetPlayer(positionShift) != currPlayer)
+                        if (engine.GetFigure(row + 1 * playerDefinition, col - 1) != 0 && engine.GetPlayer(row + 1 * playerDefinition, col - 1) != currPlayer)
                         {
-                            butts[IcurrFigure + 1 * playerDefinition, JcurrFigure - 1].BackColor = Color.Yellow;
-                            butts[IcurrFigure + 1 * playerDefinition, JcurrFigure - 1].Enabled = true;
+                            butts[row + 1 * playerDefinition, col - 1].BackColor = Color.Yellow;
+                            butts[row + 1 * playerDefinition, col - 1].Enabled = true;
                         }
                     }
                     break;
                 case 5:
-                    ShowVerticalHorizontal(IcurrFigure, JcurrFigure);
+                    ShowVerticalHorizontal(row, col);
                     break;
                 case 3:
-                    ShowDiagonal(IcurrFigure, JcurrFigure);
+                    ShowDiagonal(row, col);
                     break;
                 case 2:
-                    ShowVerticalHorizontal(IcurrFigure, JcurrFigure);
-                    ShowDiagonal(IcurrFigure, JcurrFigure);
+                    ShowVerticalHorizontal(row, col);
+                    ShowDiagonal(row, col);
                     break;
                 case 1:
-                    ShowVerticalHorizontal(IcurrFigure, JcurrFigure, true);
-                    ShowDiagonal(IcurrFigure, JcurrFigure, true);
+                    ShowVerticalHorizontal(row, col, true);
+                    ShowDiagonal(row, col, true);
                     break;
                 case 4:
-                    ShowHorseSteps(IcurrFigure, JcurrFigure);
+                    ShowHorseSteps(row, col);
                     break;
             }
         }
@@ -321,19 +300,19 @@ namespace Chess.Forms
             }
         }
 
-        public bool DeterminePath(int IcurrFigure, int j)
+        public bool DeterminePath(int row, int col)
         {
-            if(engine.GetFigure(clickedCellPosition) == 0)
+            if (engine.GetFigure(row, col) == 0)
             {
-                butts[IcurrFigure, j].BackColor = Color.Yellow;
-                butts[IcurrFigure, j].Enabled = true;
+                butts[row, col].BackColor = Color.Yellow;
+                butts[row, col].Enabled = true;
             }
             else
             {
-                if(engine.GetPlayer(clickedCellPosition) != currPlayer)
+                if (engine.GetPlayer(row, col) != currPlayer)
                 {
-                    butts[IcurrFigure, j].BackColor = Color.Yellow;
-                    butts[IcurrFigure, j].Enabled = true;
+                    butts[row, col].BackColor = Color.Yellow;
+                    butts[row, col].Enabled = true;
                 }
                 return false;
             }
@@ -342,7 +321,7 @@ namespace Chess.Forms
 
         public bool InsideBorder(int ti, int tj)
         {
-            if (ti >= 8 || tj >= 8 || ti < 0 || tj < 0) 
+            if (ti >= 8 || tj >= 8 || ti < 0 || tj < 0)
                 return false;
             return true;
         }

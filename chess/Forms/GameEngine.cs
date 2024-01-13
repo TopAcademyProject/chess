@@ -11,11 +11,18 @@ namespace Chess.Forms
 
         public Map Map { get => map; set => map = value; }
         /// <summary>
-        /// Возвращает идентификатор фигуры по позиции
+        /// Возвращает идентификатор фигуры в ячейке по позиции
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
         public int GetFigure(Position position) => Map.Figures[position.X, position.Y].Value;
+        /// <summary>
+        /// Возвращает идентификатор фигуры в ячейке по координатам
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public int GetFigure(int row, int col) => Map.Figures[row, col].Value;
         //public FigureType GetType(Position position) => Map.Figures[position.X, position.Y].Value;
         /// <summary>
         /// Возвращает позицию по вертикали
@@ -30,11 +37,18 @@ namespace Chess.Forms
         /// <returns></returns>
         public int GetFigurePosY(Position position) => position.Y;
         /// <summary>
-        /// Возвращает текущего игрока
+        /// Возвращает данные об игроке в ячейке по позиции
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
         public Player GetPlayer(Position position) => Map.Figures[position.X, position.Y].Player;
+        /// <summary>
+        /// Возвращает данные об игроке в ячейке по координатам
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public Player GetPlayer(int row, int col) => Map.Figures[row, col].Player;
         /// <summary>
         /// Задать значение фигуры на поле
         /// </summary>
