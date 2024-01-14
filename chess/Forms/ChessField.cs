@@ -157,7 +157,7 @@ namespace Chess.Forms
             switch (currentFigure)
             {
                 case 6:
-                    if (InsideBorder(row + 1 * playerDefinition, col))
+                    if (engine.InsideBorder(row + 1 * playerDefinition, col))
                     {
                         if (engine.GetFigure(positionShift) == 0)
                         {
@@ -175,7 +175,7 @@ namespace Chess.Forms
                             }
                         }
                     }
-                    if (InsideBorder(row + 1 * playerDefinition, col + 1))
+                    if (engine.InsideBorder(row + 1 * playerDefinition, col + 1))
                     {
                         if (engine.GetFigure(row + 1 * playerDefinition, col + 1) != 0 && engine.GetPlayer(row + 1 * playerDefinition, col + 1) != currentPlayer)
                         {
@@ -183,7 +183,7 @@ namespace Chess.Forms
                             butts[row + 1 * playerDefinition, col + 1].Enabled = true;
                         }
                     }
-                    if (InsideBorder(row + 1 * playerDefinition, col - 1))
+                    if (engine.InsideBorder(row + 1 * playerDefinition, col - 1))
                     {
                         if (engine.GetFigure(row + 1 * playerDefinition, col - 1) != 0 && engine.GetPlayer(row + 1 * playerDefinition, col - 1) != currentPlayer)
                         {
@@ -214,14 +214,14 @@ namespace Chess.Forms
 
         public void ShowHorseSteps(int IcurrFigure, int JcurrFigure)
         {
-            if (InsideBorder(IcurrFigure - 2, JcurrFigure + 1)) DeterminePath(IcurrFigure - 2, JcurrFigure + 1);
-            if (InsideBorder(IcurrFigure - 2, JcurrFigure - 1)) DeterminePath(IcurrFigure - 2, JcurrFigure - 1);
-            if (InsideBorder(IcurrFigure + 2, JcurrFigure + 1)) DeterminePath(IcurrFigure + 2, JcurrFigure + 1);
-            if (InsideBorder(IcurrFigure + 2, JcurrFigure - 1)) DeterminePath(IcurrFigure + 2, JcurrFigure - 1);
-            if (InsideBorder(IcurrFigure - 1, JcurrFigure + 2)) DeterminePath(IcurrFigure - 1, JcurrFigure + 2);
-            if (InsideBorder(IcurrFigure + 1, JcurrFigure + 2)) DeterminePath(IcurrFigure + 1, JcurrFigure + 2);
-            if (InsideBorder(IcurrFigure - 1, JcurrFigure - 2)) DeterminePath(IcurrFigure - 1, JcurrFigure - 2);
-            if (InsideBorder(IcurrFigure + 1, JcurrFigure - 2)) DeterminePath(IcurrFigure + 1, JcurrFigure - 2);
+            if (engine.InsideBorder(IcurrFigure - 2, JcurrFigure + 1)) DeterminePath(IcurrFigure - 2, JcurrFigure + 1);
+            if (engine.InsideBorder(IcurrFigure - 2, JcurrFigure - 1)) DeterminePath(IcurrFigure - 2, JcurrFigure - 1);
+            if (engine.InsideBorder(IcurrFigure + 2, JcurrFigure + 1)) DeterminePath(IcurrFigure + 2, JcurrFigure + 1);
+            if (engine.InsideBorder(IcurrFigure + 2, JcurrFigure - 1)) DeterminePath(IcurrFigure + 2, JcurrFigure - 1);
+            if (engine.InsideBorder(IcurrFigure - 1, JcurrFigure + 2)) DeterminePath(IcurrFigure - 1, JcurrFigure + 2);
+            if (engine.InsideBorder(IcurrFigure + 1, JcurrFigure + 2)) DeterminePath(IcurrFigure + 1, JcurrFigure + 2);
+            if (engine.InsideBorder(IcurrFigure - 1, JcurrFigure - 2)) DeterminePath(IcurrFigure - 1, JcurrFigure - 2);
+            if (engine.InsideBorder(IcurrFigure + 1, JcurrFigure - 2)) DeterminePath(IcurrFigure + 1, JcurrFigure - 2);
         }
 
         public void DeactivateAllButtons()
@@ -243,7 +243,7 @@ namespace Chess.Forms
             int j = col + 1;
             for (int i = row - 1; i >= 0; i--)
             {
-                if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
+                if (engine.InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j < 7) j++;
                 else break;
                 if (isOneStep) break;
@@ -251,7 +251,7 @@ namespace Chess.Forms
             j = col - 1;
             for (int i = row - 1; i >= 0; i--)
             {
-                if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
+                if (engine.InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j > 0) j--;
                 else break;
                 if (isOneStep) break;
@@ -259,7 +259,7 @@ namespace Chess.Forms
             j = col - 1;
             for (int i = row + 1; i < 8; i++)
             {
-                if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
+                if (engine.InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j > 0) j--;
                 else break;
                 if (isOneStep) break;
@@ -267,7 +267,7 @@ namespace Chess.Forms
             j = col + 1;
             for (int i = row + 1; i < 8; i++)
             {
-                if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
+                if (engine.InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j < 7) j++;
                 else break;
                 if (isOneStep) break;
@@ -278,22 +278,22 @@ namespace Chess.Forms
         {
             for (int i = row + 1; i < 8; i++)
             {
-                if (InsideBorder(i, col) && !DeterminePath(i, col)) break;
+                if (engine.InsideBorder(i, col) && !DeterminePath(i, col)) break;
                 if (isOneStep) break;
             }
             for (int i = row - 1; i >= 0; i--)
             {
-                if (InsideBorder(i, col) && !DeterminePath(i, col)) break;
+                if (engine.InsideBorder(i, col) && !DeterminePath(i, col)) break;
                 if (isOneStep) break;
             }
             for (int j = col + 1; j < 8; j++)
             {
-                if (InsideBorder(row, j) && !DeterminePath(row, j)) break;
+                if (engine.InsideBorder(row, j) && !DeterminePath(row, j)) break;
                 if (isOneStep) break;
             }
             for (int j = col - 1; j >= 0; j--)
             {
-                if (InsideBorder(row, j) && !DeterminePath(row, j)) break;
+                if (engine.InsideBorder(row, j) && !DeterminePath(row, j)) break;
                 if (isOneStep) break;
             }
         }
@@ -316,14 +316,6 @@ namespace Chess.Forms
             }
             return true;
         }
-
-        public bool InsideBorder(int row, int col)
-        {
-            if (row >= 8 || col >= 8 || row < 0 || col < 0)
-                return false;
-            return true;
-        }
-
         public void CloseSteps()
         {
             for (int i = 0; i < 8; i++)

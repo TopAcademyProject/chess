@@ -42,10 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chess\Figure.cs" />
-    <Compile Include="Chess\GameEngine.cs" />
-    <Compile Include="Chess\Map.cs" />
-    <Compile Include="Chess\Position.cs" />
+    <Compile Include="ChessField\Figure.cs" />
+    <Compile Include="ChessField\GameEngine.cs" />
+    <Compile Include="ChessField\Map.cs" />
+    <Compile Include="ChessField\Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThemeColor.cs" />
   </ItemGroup>
