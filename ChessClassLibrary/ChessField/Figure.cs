@@ -1,4 +1,4 @@
-﻿namespace chess.Forms.ChessField
+﻿namespace ChessClassLibrary.ChessField
 {
 
     public enum Player
@@ -19,7 +19,6 @@
     public class Figure
     {
         int value;
-        //FigureType type;
         Player player;
 
         public Figure(Player player, int value)
@@ -28,12 +27,8 @@
             this.player = player;
         }
 
-        public Player Data { get { return player; } }
         public int Value { get => value; set => this.value = value; }
-        //public FigureType Value { get => value; set => this.value = value; }
         public Player Player { get => player; set => player = value; }
-
-        //public bool IsEmpty { get => Value == FigureType.Empty; }
 
     }
 }

@@ -1,7 +1,4 @@
-﻿using chess.Forms.ChessField;
-using System.Collections.Generic;
-
-namespace Chess.Forms
+﻿namespace ChessClassLibrary.ChessField
 {
     public class GameEngine
     {
@@ -61,12 +58,17 @@ namespace Chess.Forms
         /// <param name="position"></param>
         /// <returns></returns>
         public Figure GetFigureData(Position position) => new Figure(GetPlayer(position), GetFigure(position));
-
-        /*        
-         public List<Position> showSteps(Position figurePosition)
-         {
-              return Map.GetCell(figurePosition).ShowSteps(figurePosition);
-         }
-        */
+        /// <summary>
+        /// Проверяет, находится ли вызываемая ячейка внутри границ игрового поля
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public bool InsideBorder(int row, int col)
+        {
+            if (row >= 8 || col >= 8 || row < 0 || col < 0)
+                return false;
+            return true;
+        }
     }
 }

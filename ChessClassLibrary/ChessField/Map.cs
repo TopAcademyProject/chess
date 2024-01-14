@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Chess.Forms;
-
-namespace chess.Forms.ChessField
+﻿namespace ChessClassLibrary.ChessField
 {
     public class Map
     {
         Figure[,] figures;
 
-        public Map()
-        {
-            this.Figures = new Figure[8,8]
+        public Map() => Figures = new Figure[8, 8]
             {
                 { new Figure(Player.White,5),new Figure(Player.White,4),new Figure(Player.White,3),new Figure(Player.White,2),new Figure(Player.White,1),new Figure(Player.White,3),new Figure(Player.White,4),new Figure(Player.White,5) },
                 { new Figure(Player.White,6),new Figure(Player.White,6),new Figure(Player.White,6),new Figure(Player.White,6),new Figure(Player.White,6),new Figure(Player.White,6),new Figure(Player.White,6),new Figure(Player.White,6) },
@@ -25,8 +15,6 @@ namespace chess.Forms.ChessField
                 { new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6) },
                 { new Figure(Player.Black,5),new Figure(Player.Black,4),new Figure(Player.Black,3),new Figure(Player.Black,2),new Figure(Player.Black,1),new Figure(Player.Black,3),new Figure(Player.Black,4),new Figure(Player.Black,5) },
             };
-
-        }
 
         public Figure GetCell(Position figurePosition) => Figures[figurePosition.X, figurePosition.Y];
 

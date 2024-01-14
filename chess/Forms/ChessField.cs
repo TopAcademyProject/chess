@@ -1,5 +1,5 @@
-﻿using chess.Forms.ChessField;
-using chess.Properties;
+﻿using chess.Properties;
+using ChessClassLibrary.ChessField;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -19,7 +19,7 @@ namespace Chess.Forms
         {
             InitializeComponent();
             chessSprites = new Bitmap(Resources.chess);
-            currPlayer = Player.White;
+            currentPlayer = Player.White;
             UpdateInformationLabels();
             UpdateDebugFields();
             CreateMap();
@@ -27,7 +27,7 @@ namespace Chess.Forms
         public Image chessSprites;
         public GameEngine engine = new GameEngine(new Map());
         public Button[,] butts = new Button[8, 8];
-        public Player currPlayer;
+        public Player currentPlayer;
         public Button prevButton;
         public bool isMoving = false;
 
@@ -37,9 +37,7 @@ namespace Chess.Forms
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    // Что не так с координатами?
                     butts[j, i] = new Button();
-                    //butts[i, j] = new Button();
                     Button butt = new Button();
                     butt.Size = new Size(50, 50);
                     butt.Location = new Point(i * 50, j * 50);
@@ -61,20 +59,19 @@ namespace Chess.Forms
                     }
                     butt.BackColor = Color.White;
                     butt.Click += new EventHandler(OnFigurePress);
-                    this.Controls.Add(butt);
+                    Controls.Add(butt);
                     butts[j, i] = butt;
-                    //butts[i, j] = butt;
                 }
             }
         }
+
         public void UpdateInformationLabels()
         {
             ScoreFisrtLabel.Font = mainFont; ScoreSecondLabel.Font = mainFont; CurrentPlayerLabel.Font = mainFont;
             ScoreFisrtLabel.Text = $"First player score: {scoreFirst}";
             ScoreSecondLabel.Text = $"Second player score: {scoreSecond}";
-            CurrentPlayerLabel.Text = $"Current player: {currPlayer}";
+            CurrentPlayerLabel.Text = $"Current player: {currentPlayer}";
         }
-
 
         public void OnFigurePress(object sender, EventArgs e)
         {
@@ -84,7 +81,7 @@ namespace Chess.Forms
             clickedCellPosition = new Position(pressedButton.Location.Y / 50, pressedButton.Location.X / 50);
             if (prevButton != null)
                 prevButton.BackColor = Color.White;
-            if (engine.GetFigure(clickedCellPosition) != 0 && engine.GetPlayer(clickedCellPosition) == currPlayer)
+            if (engine.GetFigure(clickedCellPosition) != 0 && engine.GetPlayer(clickedCellPosition) == currentPlayer)
             {
                 CloseSteps();
                 pressedButton.BackColor = Color.Red;
@@ -104,15 +101,15 @@ namespace Chess.Forms
             {
                 if (isMoving)
                 {
-                    var temp = engine.GetFigure(clickedCellPosition);
-                    engine.SetFigure(clickedCellPosition, new Figure(currPlayer, engine.GetFigure(prevClickedCellPosition)));
-                    if (temp != 0)
+                    var tempClickedCellPosition = engine.GetFigure(clickedCellPosition);
+                    engine.SetFigure(clickedCellPosition, new Figure(currentPlayer, engine.GetFigure(prevClickedCellPosition)));
+                    if (tempClickedCellPosition != 0)
                     {
                         engine.SetFigure(prevClickedCellPosition, new Figure(Player.Empty, 0));
-                        if (currPlayer == Player.White) scoreFirst++;
+                        if (currentPlayer == Player.White) scoreFirst++;
                         else scoreSecond++;
                     }
-                    else engine.SetFigure(prevClickedCellPosition, new Figure(currPlayer, temp));
+                    else engine.SetFigure(prevClickedCellPosition, new Figure(currentPlayer, tempClickedCellPosition));
                     pressedButton.BackgroundImage = prevButton.BackgroundImage;
                     clickedCellPosition = prevClickedCellPosition;
                     prevButton.BackgroundImage = null;
@@ -152,9 +149,10 @@ namespace Chess.Forms
             }
             DebugField.Text = str;
         }
+
         public void ShowSteps(int row, int col, int currentFigure)
         {
-            int playerDefinition = currPlayer == Player.White ? 1 : -1;
+            int playerDefinition = currentPlayer == Player.White ? 1 : -1;
             var positionShift = new Position(row + 1 * playerDefinition, col);
             switch (currentFigure)
             {
@@ -163,7 +161,7 @@ namespace Chess.Forms
                     {
                         if (engine.GetFigure(positionShift) == 0)
                         {
-                            if (row == 1 && currPlayer == Player.White || row == 6 && currPlayer == Player.Black)
+                            if (row == 1 && currentPlayer == Player.White || row == 6 && currentPlayer == Player.Black)
                             {
                                 butts[row + 1 * playerDefinition, col].BackColor = Color.Yellow;
                                 butts[row + 2 * playerDefinition, col].BackColor = Color.Yellow;
@@ -179,7 +177,7 @@ namespace Chess.Forms
                     }
                     if (InsideBorder(row + 1 * playerDefinition, col + 1))
                     {
-                        if (engine.GetFigure(row + 1 * playerDefinition, col + 1) != 0 && engine.GetPlayer(row + 1*playerDefinition, col + 1) != currPlayer)
+                        if (engine.GetFigure(row + 1 * playerDefinition, col + 1) != 0 && engine.GetPlayer(row + 1 * playerDefinition, col + 1) != currentPlayer)
                         {
                             butts[row + 1 * playerDefinition, col + 1].BackColor = Color.Yellow;
                             butts[row + 1 * playerDefinition, col + 1].Enabled = true;
@@ -187,7 +185,7 @@ namespace Chess.Forms
                     }
                     if (InsideBorder(row + 1 * playerDefinition, col - 1))
                     {
-                        if (engine.GetFigure(row + 1 * playerDefinition, col - 1) != 0 && engine.GetPlayer(row + 1 * playerDefinition, col - 1) != currPlayer)
+                        if (engine.GetFigure(row + 1 * playerDefinition, col - 1) != 0 && engine.GetPlayer(row + 1 * playerDefinition, col - 1) != currentPlayer)
                         {
                             butts[row + 1 * playerDefinition, col - 1].BackColor = Color.Yellow;
                             butts[row + 1 * playerDefinition, col - 1].Enabled = true;
@@ -240,34 +238,34 @@ namespace Chess.Forms
                     butts[i, j].Enabled = true;
         }
 
-        public void ShowDiagonal(int IcurrFigure, int JcurrFigure, bool isOneStep = false)
+        public void ShowDiagonal(int row, int col, bool isOneStep = false)
         {
-            int j = JcurrFigure + 1;
-            for (int i = IcurrFigure - 1; i >= 0; i--)
+            int j = col + 1;
+            for (int i = row - 1; i >= 0; i--)
             {
                 if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j < 7) j++;
                 else break;
                 if (isOneStep) break;
             }
-            j = JcurrFigure - 1;
-            for (int i = IcurrFigure - 1; i >= 0; i--)
+            j = col - 1;
+            for (int i = row - 1; i >= 0; i--)
             {
                 if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j > 0) j--;
                 else break;
                 if (isOneStep) break;
             }
-            j = JcurrFigure - 1;
-            for (int i = IcurrFigure + 1; i < 8; i++)
+            j = col - 1;
+            for (int i = row + 1; i < 8; i++)
             {
                 if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j > 0) j--;
                 else break;
                 if (isOneStep) break;
             }
-            j = JcurrFigure + 1;
-            for (int i = IcurrFigure + 1; i < 8; i++)
+            j = col + 1;
+            for (int i = row + 1; i < 8; i++)
             {
                 if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j < 7) j++;
@@ -276,26 +274,26 @@ namespace Chess.Forms
             }
         }
 
-        public void ShowVerticalHorizontal(int IcurrFigure, int JcurrFigure, bool isOneStep = false)
+        public void ShowVerticalHorizontal(int row, int col, bool isOneStep = false)
         {
-            for (int i = IcurrFigure + 1; i < 8; i++)
+            for (int i = row + 1; i < 8; i++)
             {
-                if (InsideBorder(i, JcurrFigure) && !DeterminePath(i, JcurrFigure)) break;
+                if (InsideBorder(i, col) && !DeterminePath(i, col)) break;
                 if (isOneStep) break;
             }
-            for (int i = IcurrFigure - 1; i >= 0; i--)
+            for (int i = row - 1; i >= 0; i--)
             {
-                if (InsideBorder(i, JcurrFigure) && !DeterminePath(i, JcurrFigure)) break;
+                if (InsideBorder(i, col) && !DeterminePath(i, col)) break;
                 if (isOneStep) break;
             }
-            for (int j = JcurrFigure + 1; j < 8; j++)
+            for (int j = col + 1; j < 8; j++)
             {
-                if (InsideBorder(IcurrFigure, j) && !DeterminePath(IcurrFigure, j)) break;
+                if (InsideBorder(row, j) && !DeterminePath(row, j)) break;
                 if (isOneStep) break;
             }
-            for (int j = JcurrFigure - 1; j >= 0; j--)
+            for (int j = col - 1; j >= 0; j--)
             {
-                if (InsideBorder(IcurrFigure, j) && !DeterminePath(IcurrFigure, j)) break;
+                if (InsideBorder(row, j) && !DeterminePath(row, j)) break;
                 if (isOneStep) break;
             }
         }
@@ -309,7 +307,7 @@ namespace Chess.Forms
             }
             else
             {
-                if (engine.GetPlayer(row, col) != currPlayer)
+                if (engine.GetPlayer(row, col) != currentPlayer)
                 {
                     butts[row, col].BackColor = Color.Yellow;
                     butts[row, col].Enabled = true;
@@ -319,9 +317,9 @@ namespace Chess.Forms
             return true;
         }
 
-        public bool InsideBorder(int ti, int tj)
+        public bool InsideBorder(int row, int col)
         {
-            if (ti >= 8 || tj >= 8 || ti < 0 || tj < 0)
+            if (row >= 8 || col >= 8 || row < 0 || col < 0)
                 return false;
             return true;
         }
@@ -336,7 +334,7 @@ namespace Chess.Forms
         public void SwitchPlayer()
         {
             RoundTimer.Enabled = true;
-            currPlayer = currPlayer == Player.White ? Player.Black : Player.White;
+            currentPlayer = currentPlayer == Player.White ? Player.Black : Player.White;
             UpdateDebugFields();
             UpdateInformationLabels();
         }

@@ -1,4 +1,4 @@
-﻿namespace Chess.Forms
+﻿namespace ChessClassLibrary.ChessField
 {
     public class Position
     {
