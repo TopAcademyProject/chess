@@ -130,11 +130,11 @@ namespace Chess.Forms
             DebugInfoLabel.Font = mainFont;
             DebugPositionClickedLabel.Font = mainFont;
             string str = "";
-            for (int i = 0; i < 8; i++)
+            for (int row = 0; row < 8; row++)
             {
-                for (int ii = 0; ii < 8; ii++)
+                for (int col = 0; col < 8; col++)
                 {
-                    var pos = new Position(i, ii);
+                    var pos = new Position(row, col);
                     if (engine.GetFigure(pos) <= 10)
                     {
                         if (engine.GetPlayer(pos) == Player.White) str += '1';
@@ -152,45 +152,17 @@ namespace Chess.Forms
 
         public void ShowSteps(int row, int col, int currentFigure)
         {
-            int playerDefinition = currentPlayer == Player.White ? 1 : -1;
-            var positionShift = new Position(row + 1 * playerDefinition, col);
             switch (currentFigure)
             {
                 case 6:
-                    if (engine.InsideBorder(row + 1 * playerDefinition, col))
-                    {
-                        if (engine.GetFigure(positionShift) == 0)
-                        {
-                            if (row == 1 && currentPlayer == Player.White || row == 6 && currentPlayer == Player.Black)
+                    var pawnSteps = engine.GetPawnSteps(row, col, currentPlayer);
+                    for (int i = 0; i < 8; i++)
+                        for (int j = 0; j < 8; j++)
+                            if (pawnSteps[i, j] == true)
                             {
-                                butts[row + 1 * playerDefinition, col].BackColor = Color.Yellow;
-                                butts[row + 2 * playerDefinition, col].BackColor = Color.Yellow;
-                                butts[row + 1 * playerDefinition, col].Enabled = true;
-                                butts[row + 2 * playerDefinition, col].Enabled = true;
+                                butts[i, j].BackColor = Color.Yellow;
+                                butts[i, j].Enabled = true;
                             }
-                            else
-                            {
-                                butts[row + 1 * playerDefinition, col].BackColor = Color.Yellow;
-                                butts[row + 1 * playerDefinition, col].Enabled = true;
-                            }
-                        }
-                    }
-                    if (engine.InsideBorder(row + 1 * playerDefinition, col + 1))
-                    {
-                        if (engine.GetFigure(row + 1 * playerDefinition, col + 1) != 0 && engine.GetPlayer(row + 1 * playerDefinition, col + 1) != currentPlayer)
-                        {
-                            butts[row + 1 * playerDefinition, col + 1].BackColor = Color.Yellow;
-                            butts[row + 1 * playerDefinition, col + 1].Enabled = true;
-                        }
-                    }
-                    if (engine.InsideBorder(row + 1 * playerDefinition, col - 1))
-                    {
-                        if (engine.GetFigure(row + 1 * playerDefinition, col - 1) != 0 && engine.GetPlayer(row + 1 * playerDefinition, col - 1) != currentPlayer)
-                        {
-                            butts[row + 1 * playerDefinition, col - 1].BackColor = Color.Yellow;
-                            butts[row + 1 * playerDefinition, col - 1].Enabled = true;
-                        }
-                    }
                     break;
                 case 5:
                     ShowVerticalHorizontal(row, col);
@@ -212,16 +184,12 @@ namespace Chess.Forms
             }
         }
 
-        public void ShowHorseSteps(int IcurrFigure, int JcurrFigure)
+        public void ShowHorseSteps(int row, int col)
         {
-            if (engine.InsideBorder(IcurrFigure - 2, JcurrFigure + 1)) DeterminePath(IcurrFigure - 2, JcurrFigure + 1);
-            if (engine.InsideBorder(IcurrFigure - 2, JcurrFigure - 1)) DeterminePath(IcurrFigure - 2, JcurrFigure - 1);
-            if (engine.InsideBorder(IcurrFigure + 2, JcurrFigure + 1)) DeterminePath(IcurrFigure + 2, JcurrFigure + 1);
-            if (engine.InsideBorder(IcurrFigure + 2, JcurrFigure - 1)) DeterminePath(IcurrFigure + 2, JcurrFigure - 1);
-            if (engine.InsideBorder(IcurrFigure - 1, JcurrFigure + 2)) DeterminePath(IcurrFigure - 1, JcurrFigure + 2);
-            if (engine.InsideBorder(IcurrFigure + 1, JcurrFigure + 2)) DeterminePath(IcurrFigure + 1, JcurrFigure + 2);
-            if (engine.InsideBorder(IcurrFigure - 1, JcurrFigure - 2)) DeterminePath(IcurrFigure - 1, JcurrFigure - 2);
-            if (engine.InsideBorder(IcurrFigure + 1, JcurrFigure - 2)) DeterminePath(IcurrFigure + 1, JcurrFigure - 2);
+            var hourseSteps = engine.GetHourseSteps(row, col);
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                    if (hourseSteps[i, j] == true) DeterminePath(i, j);
         }
 
         public void DeactivateAllButtons()
@@ -240,6 +208,10 @@ namespace Chess.Forms
 
         public void ShowDiagonal(int row, int col, bool isOneStep = false)
         {
+/*            for(int i = 0;i < 8;i++)
+                for (int j = 0;j < 8; j++)
+                    if(engine.GetDiagonalSteps(row, col, currentPlayer)[i,j]==true)
+                        DeterminePath(i, j);*/
             int j = col + 1;
             for (int i = row - 1; i >= 0; i--)
             {
@@ -325,10 +297,16 @@ namespace Chess.Forms
 
         public void SwitchPlayer()
         {
-            RoundTimer.Enabled = true;
-            currentPlayer = currentPlayer == Player.White ? Player.Black : Player.White;
             UpdateDebugFields();
             UpdateInformationLabels();
+            if (isMoving == true)
+                DebugPositionClickedLabel.Text = $"Невозможно сменить игрока, пока вы пытаетесь ходить фигурами!";
+            else
+            {
+                RoundTimer.Enabled = true;
+                currentPlayer = currentPlayer == Player.White ? Player.Black : Player.White;
+                DebugPositionClickedLabel.Text = $"{timer} : Игрок изменён на {currentPlayer}.";
+            }
         }
 
         private void SwitchPlayerButton_Click(object sender, EventArgs e) => SwitchPlayer();
