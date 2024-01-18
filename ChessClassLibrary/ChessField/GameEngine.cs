@@ -216,5 +216,38 @@ namespace ChessClassLibrary.ChessField
             }
             return true;
         }
+        public Player GetWinner()
+        {
+            bool white = false, black = false;
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    if (GetFigure(row, col) == 1 && GetPlayer(row, col) == Player.White)
+                        white = true;
+                    if (GetFigure(row, col) == 1 && GetPlayer(row, col) == Player.Black)
+                        black = true;
+                }
+            }
+            if (white)      return Player.White;
+            else if (black) return Player.Black;
+            else            return Player.Empty;
+        }
+        public bool GameOver()
+        {
+            bool white = false, black = false;
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    if (GetFigure(row, col) == 1 && GetPlayer(row, col) == Player.White)
+                        white = true;
+                    if (GetFigure(row, col) == 1 && GetPlayer(row, col) == Player.Black)
+                        black = true;
+                }
+            }
+            if (white == true && black == true) return false;
+            else return true;
+        }
     }
 }

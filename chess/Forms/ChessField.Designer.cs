@@ -38,6 +38,8 @@
             this.DebugInfoLabel = new System.Windows.Forms.Label();
             this.RoundTimer = new System.Windows.Forms.Timer(this.components);
             this.DebugPositionClickedLabel = new System.Windows.Forms.Label();
+            this.DebugGameOverLabel = new System.Windows.Forms.Label();
+            this.WinnerLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // DebugField
@@ -119,11 +121,31 @@
             this.DebugPositionClickedLabel.TabIndex = 7;
             this.DebugPositionClickedLabel.Text = "Position clicked";
             // 
+            // DebugGameOverLabel
+            // 
+            this.DebugGameOverLabel.AutoSize = true;
+            this.DebugGameOverLabel.Location = new System.Drawing.Point(596, 198);
+            this.DebugGameOverLabel.Name = "DebugGameOverLabel";
+            this.DebugGameOverLabel.Size = new System.Drawing.Size(79, 13);
+            this.DebugGameOverLabel.TabIndex = 8;
+            this.DebugGameOverLabel.Text = "Game continue";
+            // 
+            // WinnerLabel
+            // 
+            this.WinnerLabel.AutoSize = true;
+            this.WinnerLabel.Location = new System.Drawing.Point(420, 105);
+            this.WinnerLabel.Name = "WinnerLabel";
+            this.WinnerLabel.Size = new System.Drawing.Size(88, 13);
+            this.WinnerLabel.TabIndex = 9;
+            this.WinnerLabel.Text = "WINNER LABEL";
+            // 
             // ChessField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.WinnerLabel);
+            this.Controls.Add(this.DebugGameOverLabel);
             this.Controls.Add(this.DebugPositionClickedLabel);
             this.Controls.Add(this.DebugInfoLabel);
             this.Controls.Add(this.SwitchPlayerButton);
@@ -150,5 +172,7 @@
         private System.Windows.Forms.Label DebugInfoLabel;
         private System.Windows.Forms.Timer RoundTimer;
         private System.Windows.Forms.Label DebugPositionClickedLabel;
+        private System.Windows.Forms.Label DebugGameOverLabel;
+        private System.Windows.Forms.Label WinnerLabel;
     }
 }

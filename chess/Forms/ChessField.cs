@@ -15,6 +15,7 @@ namespace Chess.Forms
         public Font mainFont = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
         Position clickedCellPosition;
         Position prevClickedCellPosition;
+        bool gameOver = false;
         public ChessField()
         {
             InitializeComponent();
@@ -25,6 +26,10 @@ namespace Chess.Forms
             CreateMap();
         }
         public Image chessSprites;
+        /*
+         * Debug  map mode — new Map(true)
+         * Normal map mode — new Map()
+         */
         public GameEngine engine = new GameEngine(new Map());
         public Button[,] butts = new Button[8, 8];
         public Player currentPlayer;
@@ -42,19 +47,17 @@ namespace Chess.Forms
                     butt.Size = new Size(50, 50);
                     butt.Location = new Point(i * 50, j * 50);
                     var pos = new Position(j, i);
+                    Image textureAtlas = new Bitmap(50, 50);
+                    Graphics texture = Graphics.FromImage(textureAtlas);
                     switch (engine.GetPlayer(pos))
                     {
                         case Player.White:
-                            Image part = new Bitmap(50, 50);
-                            Graphics g = Graphics.FromImage(part);
-                            g.DrawImage(chessSprites, new Rectangle(0, 0, 50, 50), 0 + 150 * (engine.GetFigure(pos) - 1), 0, 150, 150, GraphicsUnit.Pixel);
-                            butt.BackgroundImage = part;
+                            texture.DrawImage(chessSprites, new Rectangle(0, 0, 50, 50), 0 + 150 * (engine.GetFigure(pos) - 1), 0, 150, 150, GraphicsUnit.Pixel);
+                            butt.BackgroundImage = textureAtlas;
                             break;
                         case Player.Black:
-                            Image part1 = new Bitmap(50, 50);
-                            Graphics g1 = Graphics.FromImage(part1);
-                            g1.DrawImage(chessSprites, new Rectangle(0, 0, 50, 50), 0 + 150 * (engine.GetFigure(pos) - 1), 150, 150, 150, GraphicsUnit.Pixel);
-                            butt.BackgroundImage = part1;
+                            texture.DrawImage(chessSprites, new Rectangle(0, 0, 50, 50), 0 + 150 * (engine.GetFigure(pos) - 1), 150, 150, 150, GraphicsUnit.Pixel);
+                            butt.BackgroundImage = textureAtlas;
                             break;
                     }
                     butt.BackColor = Color.White;
@@ -67,10 +70,11 @@ namespace Chess.Forms
 
         public void UpdateInformationLabels()
         {
-            ScoreFisrtLabel.Font = mainFont; ScoreSecondLabel.Font = mainFont; CurrentPlayerLabel.Font = mainFont;
+            ScoreFisrtLabel.Font = mainFont; ScoreSecondLabel.Font = mainFont; CurrentPlayerLabel.Font = mainFont; WinnerLabel.Font = mainFont;
             ScoreFisrtLabel.Text = $"First player score: {scoreFirst}";
             ScoreSecondLabel.Text = $"Second player score: {scoreSecond}";
             CurrentPlayerLabel.Text = $"Current player: {currentPlayer}";
+            WinnerLabel.Text = "";
         }
 
         public void OnFigurePress(object sender, EventArgs e)
@@ -106,6 +110,7 @@ namespace Chess.Forms
                     if (tempClickedCellPosition != 0)
                     {
                         engine.SetFigure(prevClickedCellPosition, new Figure(Player.Empty, 0));
+                        if (engine.GameOver()) gameOver = true;
                         if (currentPlayer == Player.White) scoreFirst++;
                         else scoreSecond++;
                     }
@@ -128,7 +133,15 @@ namespace Chess.Forms
             DebugField.Font = mainFont;
             DebugTimer.Font = mainFont;
             DebugInfoLabel.Font = mainFont;
+            DebugGameOverLabel.Font = mainFont;
             DebugPositionClickedLabel.Font = mainFont;
+            string gameOverText;
+            if (gameOver)
+                gameOverText = "over";
+            else
+                gameOverText = "continue";
+
+            DebugGameOverLabel.Text = $"Game {gameOverText}.";
             string str = "";
             for (int row = 0; row < 8; row++)
             {
@@ -201,6 +214,7 @@ namespace Chess.Forms
 
         public void ActivateAllButtons()
         {
+            if (gameOver) return;
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
                     butts[i, j].Enabled = true;
@@ -313,6 +327,14 @@ namespace Chess.Forms
 
         private void RoundTimer_Tick(object sender, EventArgs e)
         {
+            if (gameOver)
+            {
+                string player;
+                if (currentPlayer == Player.Black) player = "Победили белые!";
+                else player = "Победили чёрные!";
+                WinnerLabel.Text = $"{player}";
+                RoundTimer.Enabled = false;
+            }
             timer++;
             DebugTimer.Text = timer.ToString();
         }
