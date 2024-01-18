@@ -1,4 +1,5 @@
 ﻿using ChessConsoleApp.Command.Assistant;
+using ChessConsoleApp.Tests;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -49,6 +50,10 @@ namespace ChessConsoleApp.Command
                 /*
                  * Здесь описываются новые методы вызова
                  */
+                case "test:test":
+                    TestClass testClass = new TestClass();
+                    testClass.Run();
+                    break;
                 #endregion
                 #region Default
                 case "exit":

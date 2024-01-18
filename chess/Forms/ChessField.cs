@@ -1,104 +1,97 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using chess.Properties;
+using ChessClassLibrary.ChessField;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using chess.Properties;
-using Chess;
 
 namespace Chess.Forms
 {
     public partial class ChessField : Form
     {
-        public int scoreFirst  = 0;
+        public int scoreFirst = 0;
         public int scoreSecond = 0;
         public bool timerEnable = false;
         public int timer = 0;
         public Font mainFont = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
+        Position clickedCellPosition;
+        Position prevClickedCellPosition;
+        bool gameOver = false;
         public ChessField()
         {
             InitializeComponent();
             chessSprites = new Bitmap(Resources.chess);
-            currPlayer = 1;
+            currentPlayer = Player.White;
             UpdateInformationLabels();
             UpdateDebugFields();
             CreateMap();
         }
         public Image chessSprites;
-        public int[,] map = new int[8, 8]
-        {
-            {15,14,13,12,11,13,14,15 },
-            {16,16,16,16,16,16,16,16 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {0,0,0,0,0,0,0,0 },
-            {26,26,26,26,26,26,26,26 },
-            {25,24,23,22,21,23,24,25 },
-        };
-
+        /*
+         * Debug  map mode — new Map(true)
+         * Normal map mode — new Map()
+         */
+        public GameEngine engine = new GameEngine(new Map());
         public Button[,] butts = new Button[8, 8];
-        public int currPlayer;
+        public Player currentPlayer;
         public Button prevButton;
         public bool isMoving = false;
+
         public void CreateMap()
         {
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    butts[i, j] = new Button();
+                    butts[j, i] = new Button();
                     Button butt = new Button();
                     butt.Size = new Size(50, 50);
-                    butt.Location = new Point(j * 50, i * 50);
-                    switch (map[i, j] / 10)
+                    butt.Location = new Point(i * 50, j * 50);
+                    var pos = new Position(j, i);
+                    Image textureAtlas = new Bitmap(50, 50);
+                    Graphics texture = Graphics.FromImage(textureAtlas);
+                    switch (engine.GetPlayer(pos))
                     {
-                        case 1:
-                            Image part = new Bitmap(50, 50);
-                            Graphics g = Graphics.FromImage(part);
-                            g.DrawImage(chessSprites, new Rectangle(0, 0, 50, 50), 0 + 150 * (map[i, j] % 10 - 1), 0, 150, 150, GraphicsUnit.Pixel);
-                            butt.BackgroundImage = part;
+                        case Player.White:
+                            texture.DrawImage(chessSprites, new Rectangle(0, 0, 50, 50), 0 + 150 * (engine.GetFigure(pos) - 1), 0, 150, 150, GraphicsUnit.Pixel);
+                            butt.BackgroundImage = textureAtlas;
                             break;
-                        case 2:
-                            Image part1 = new Bitmap(50, 50);
-                            Graphics g1 = Graphics.FromImage(part1);
-                            g1.DrawImage(chessSprites, new Rectangle(0, 0, 50, 50), 0 + 150 * (map[i, j] % 10 - 1), 150, 150, 150, GraphicsUnit.Pixel);
-                            butt.BackgroundImage = part1;
+                        case Player.Black:
+                            texture.DrawImage(chessSprites, new Rectangle(0, 0, 50, 50), 0 + 150 * (engine.GetFigure(pos) - 1), 150, 150, 150, GraphicsUnit.Pixel);
+                            butt.BackgroundImage = textureAtlas;
                             break;
                     }
                     butt.BackColor = Color.White;
                     butt.Click += new EventHandler(OnFigurePress);
-                    this.Controls.Add(butt);
-                    butts[i, j] = butt;
+                    Controls.Add(butt);
+                    butts[j, i] = butt;
                 }
             }
         }
+
         public void UpdateInformationLabels()
         {
-            ScoreFisrtLabel.Font = mainFont; ScoreSecondLabel.Font = mainFont; CurrentPlayerLabel.Font = mainFont;
-            ScoreFisrtLabel.Text  = $"First player score: {scoreFirst}";
+            ScoreFisrtLabel.Font = mainFont; ScoreSecondLabel.Font = mainFont; CurrentPlayerLabel.Font = mainFont; WinnerLabel.Font = mainFont;
+            ScoreFisrtLabel.Text = $"First player score: {scoreFirst}";
             ScoreSecondLabel.Text = $"Second player score: {scoreSecond}";
-            if (currPlayer == 1) CurrentPlayerLabel.Text = $"Current player: white";
-            else                 CurrentPlayerLabel.Text = $"Current player: black";
+            CurrentPlayerLabel.Text = $"Current player: {currentPlayer}";
+            WinnerLabel.Text = "";
         }
 
         public void OnFigurePress(object sender, EventArgs e)
         {
             UpdateDebugFields();
+
+            Button pressedButton = sender as Button;
+            clickedCellPosition = new Position(pressedButton.Location.Y / 50, pressedButton.Location.X / 50);
             if (prevButton != null)
                 prevButton.BackColor = Color.White;
-            Button pressedButton = sender as Button;
-            if (map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50] != 0 && map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50] / 10 == currPlayer)
+            if (engine.GetFigure(clickedCellPosition) != 0 && engine.GetPlayer(clickedCellPosition) == currentPlayer)
             {
                 CloseSteps();
                 pressedButton.BackColor = Color.Red;
                 DeactivateAllButtons();
                 pressedButton.Enabled = true;
-                ShowSteps(pressedButton.Location.Y / 50, pressedButton.Location.X / 50, map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50]);
+                ShowSteps(engine.GetFigurePosX(clickedCellPosition), engine.GetFigurePosY(clickedCellPosition), engine.GetFigure(clickedCellPosition));
                 if (isMoving)
                 {
                     CloseSteps();
@@ -112,16 +105,18 @@ namespace Chess.Forms
             {
                 if (isMoving)
                 {
-                    int temp = map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50];
-                    map[pressedButton.Location.Y / 50, pressedButton.Location.X / 50] = map[prevButton.Location.Y / 50, prevButton.Location.X / 50];
-                    if(temp % 10 != 00)
+                    var tempClickedCellPosition = engine.GetFigure(clickedCellPosition);
+                    engine.SetFigure(clickedCellPosition, new Figure(currentPlayer, engine.GetFigure(prevClickedCellPosition)));
+                    if (tempClickedCellPosition != 0)
                     {
-                        map[prevButton.Location.Y / 50, prevButton.Location.X / 50] = 00;
-                        if (currPlayer == 1) scoreFirst++;
+                        engine.SetFigure(prevClickedCellPosition, new Figure(Player.Empty, 0));
+                        if (engine.GameOver()) gameOver = true;
+                        if (currentPlayer == Player.White) scoreFirst++;
                         else scoreSecond++;
                     }
-                    else map[prevButton.Location.Y / 50, prevButton.Location.X / 50] = temp;
+                    else engine.SetFigure(prevClickedCellPosition, new Figure(currentPlayer, tempClickedCellPosition));
                     pressedButton.BackgroundImage = prevButton.BackgroundImage;
+                    clickedCellPosition = prevClickedCellPosition;
                     prevButton.BackgroundImage = null;
                     isMoving = false;
                     CloseSteps();
@@ -130,6 +125,7 @@ namespace Chess.Forms
                 }
             }
             prevButton = pressedButton;
+            prevClickedCellPosition = new Position(prevButton.Location.Y / 50, prevButton.Location.X / 50);
         }
 
         private void UpdateDebugFields()
@@ -137,13 +133,29 @@ namespace Chess.Forms
             DebugField.Font = mainFont;
             DebugTimer.Font = mainFont;
             DebugInfoLabel.Font = mainFont;
+            DebugGameOverLabel.Font = mainFont;
+            DebugPositionClickedLabel.Font = mainFont;
+            string gameOverText;
+            if (gameOver)
+                gameOverText = "over";
+            else
+                gameOverText = "continue";
+
+            DebugGameOverLabel.Text = $"Game {gameOverText}.";
             string str = "";
-            for (int i = 0; i < 8; i++)
+            for (int row = 0; row < 8; row++)
             {
-                for (int ii = 0; ii < 8; ii++)
+                for (int col = 0; col < 8; col++)
                 {
-                    if (map[i, ii] <= 10) str += "0" + map[i, ii];
-                    else str += map[i, ii];
+                    var pos = new Position(row, col);
+                    if (engine.GetFigure(pos) <= 10)
+                    {
+                        if (engine.GetPlayer(pos) == Player.White) str += '1';
+                        else if (engine.GetPlayer(pos) == Player.Black) str += "2";
+                        else str += "0";
+                        str += engine.GetFigure(pos);
+                    }
+                    else str += engine.GetFigure(pos);
                     str += " ";
                 }
                 str += "\n";
@@ -151,76 +163,46 @@ namespace Chess.Forms
             DebugField.Text = str;
         }
 
-        public void ShowSteps(int IcurrFigure, int JcurrFigure, int currFigure)
+        public void ShowSteps(int row, int col, int currentFigure)
         {
-            int dir = currPlayer == 1 ? 1 : -1;
-            switch (currFigure % 10)
+            switch (currentFigure)
             {
                 case 6:
-                    if (InsideBorder(IcurrFigure + 1 * dir, JcurrFigure))
-                    {
-                        if (map[IcurrFigure + 1 * dir, JcurrFigure] == 0)
-                        {
-                            butts[IcurrFigure + 1 * dir, JcurrFigure].BackColor = Color.Yellow;
-                            butts[IcurrFigure + 1 * dir, JcurrFigure].Enabled = true;
-
-                            if ((IcurrFigure == 1 && currPlayer == 1) || (IcurrFigure == 6 && currPlayer == 2))
+                    var pawnSteps = engine.GetPawnSteps(row, col, currentPlayer);
+                    for (int i = 0; i < 8; i++)
+                        for (int j = 0; j < 8; j++)
+                            if (pawnSteps[i, j] == true)
                             {
-                                if (map[IcurrFigure + 2 * dir, JcurrFigure] == 0)
-                                {
-                                    butts[IcurrFigure + 2 * dir, JcurrFigure].BackColor = Color.Yellow;
-                                    butts[IcurrFigure + 2 * dir, JcurrFigure].Enabled = true;
-                                }
+                                butts[i, j].BackColor = Color.Yellow;
+                                butts[i, j].Enabled = true;
                             }
-                        }
-                    }
-                    if (InsideBorder(IcurrFigure + 1 * dir, JcurrFigure + 1))
-                    {
-                        if (map[IcurrFigure + 1 * dir, JcurrFigure + 1] != 0 && map[IcurrFigure + 1 * dir, JcurrFigure + 1] / 10 != currPlayer)
-                        {
-                            butts[IcurrFigure + 1 * dir, JcurrFigure + 1].BackColor = Color.Yellow;
-                            butts[IcurrFigure + 1 * dir, JcurrFigure + 1].Enabled = true;
-                        }
-                    }
-                    if (InsideBorder(IcurrFigure + 1 * dir, JcurrFigure - 1))
-                    {
-                        if (map[IcurrFigure + 1 * dir, JcurrFigure - 1] != 0 && map[IcurrFigure + 1 * dir, JcurrFigure - 1] / 10 != currPlayer)
-                        {
-                            butts[IcurrFigure + 1 * dir, JcurrFigure - 1].BackColor = Color.Yellow;
-                            butts[IcurrFigure + 1 * dir, JcurrFigure - 1].Enabled = true;
-                        }
-                    }
                     break;
                 case 5:
-                    ShowVerticalHorizontal(IcurrFigure, JcurrFigure);
+                    ShowVerticalHorizontal(row, col);
                     break;
                 case 3:
-                    ShowDiagonal(IcurrFigure, JcurrFigure);
+                    ShowDiagonal(row, col);
                     break;
                 case 2:
-                    ShowVerticalHorizontal(IcurrFigure, JcurrFigure);
-                    ShowDiagonal(IcurrFigure, JcurrFigure);
+                    ShowVerticalHorizontal(row, col);
+                    ShowDiagonal(row, col);
                     break;
                 case 1:
-                    ShowVerticalHorizontal(IcurrFigure, JcurrFigure, true);
-                    ShowDiagonal(IcurrFigure, JcurrFigure, true);
+                    ShowVerticalHorizontal(row, col, true);
+                    ShowDiagonal(row, col, true);
                     break;
                 case 4:
-                    ShowHorseSteps(IcurrFigure, JcurrFigure);
+                    ShowHorseSteps(row, col);
                     break;
             }
         }
 
-        public void ShowHorseSteps(int IcurrFigure, int JcurrFigure)
+        public void ShowHorseSteps(int row, int col)
         {
-            if (InsideBorder(IcurrFigure - 2, JcurrFigure + 1)) DeterminePath(IcurrFigure - 2, JcurrFigure + 1);
-            if (InsideBorder(IcurrFigure - 2, JcurrFigure - 1)) DeterminePath(IcurrFigure - 2, JcurrFigure - 1);
-            if (InsideBorder(IcurrFigure + 2, JcurrFigure + 1)) DeterminePath(IcurrFigure + 2, JcurrFigure + 1);
-            if (InsideBorder(IcurrFigure + 2, JcurrFigure - 1)) DeterminePath(IcurrFigure + 2, JcurrFigure - 1);
-            if (InsideBorder(IcurrFigure - 1, JcurrFigure + 2)) DeterminePath(IcurrFigure - 1, JcurrFigure + 2);
-            if (InsideBorder(IcurrFigure + 1, JcurrFigure + 2)) DeterminePath(IcurrFigure + 1, JcurrFigure + 2);
-            if (InsideBorder(IcurrFigure - 1, JcurrFigure - 2)) DeterminePath(IcurrFigure - 1, JcurrFigure - 2);
-            if (InsideBorder(IcurrFigure + 1, JcurrFigure - 2)) DeterminePath(IcurrFigure + 1, JcurrFigure - 2);
+            var hourseSteps = engine.GetHourseSteps(row, col);
+            for (int i = 0; i < 8; i++)
+                for (int j = 0; j < 8; j++)
+                    if (hourseSteps[i, j] == true) DeterminePath(i, j);
         }
 
         public void DeactivateAllButtons()
@@ -232,97 +214,94 @@ namespace Chess.Forms
 
         public void ActivateAllButtons()
         {
+            if (gameOver) return;
             for (int i = 0; i < 8; i++)
                 for (int j = 0; j < 8; j++)
                     butts[i, j].Enabled = true;
         }
 
-        public void ShowDiagonal(int IcurrFigure, int JcurrFigure, bool isOneStep = false)
+        public void ShowDiagonal(int row, int col, bool isOneStep = false)
         {
-            int j = JcurrFigure + 1;
-            for (int i = IcurrFigure - 1; i >= 0; i--)
+/*            for(int i = 0;i < 8;i++)
+                for (int j = 0;j < 8; j++)
+                    if(engine.GetDiagonalSteps(row, col, currentPlayer)[i,j]==true)
+                        DeterminePath(i, j);*/
+            int j = col + 1;
+            for (int i = row - 1; i >= 0; i--)
             {
-                if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
+                if (engine.InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j < 7) j++;
                 else break;
                 if (isOneStep) break;
             }
-            j = JcurrFigure - 1;
-            for (int i = IcurrFigure - 1; i >= 0; i--)
+            j = col - 1;
+            for (int i = row - 1; i >= 0; i--)
             {
-                if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
+                if (engine.InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j > 0) j--;
                 else break;
                 if (isOneStep) break;
             }
-            j = JcurrFigure - 1;
-            for (int i = IcurrFigure + 1; i < 8; i++)
+            j = col - 1;
+            for (int i = row + 1; i < 8; i++)
             {
-                if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
+                if (engine.InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j > 0) j--;
                 else break;
                 if (isOneStep) break;
             }
-            j = JcurrFigure + 1;
-            for (int i = IcurrFigure + 1; i < 8; i++)
+            j = col + 1;
+            for (int i = row + 1; i < 8; i++)
             {
-                if (InsideBorder(i, j) && !DeterminePath(i, j)) break;
+                if (engine.InsideBorder(i, j) && !DeterminePath(i, j)) break;
                 if (j < 7) j++;
                 else break;
                 if (isOneStep) break;
             }
         }
 
-        public void ShowVerticalHorizontal(int IcurrFigure, int JcurrFigure, bool isOneStep = false)
+        public void ShowVerticalHorizontal(int row, int col, bool isOneStep = false)
         {
-            for (int i = IcurrFigure + 1; i < 8; i++)
+            for (int i = row + 1; i < 8; i++)
             {
-                if (InsideBorder(i, JcurrFigure) && !DeterminePath(i, JcurrFigure)) break;
+                if (engine.InsideBorder(i, col) && !DeterminePath(i, col)) break;
                 if (isOneStep) break;
             }
-            for (int i = IcurrFigure - 1; i >= 0; i--)
+            for (int i = row - 1; i >= 0; i--)
             {
-                if (InsideBorder(i, JcurrFigure) && !DeterminePath(i, JcurrFigure)) break;
+                if (engine.InsideBorder(i, col) && !DeterminePath(i, col)) break;
                 if (isOneStep) break;
             }
-            for (int j = JcurrFigure + 1; j < 8; j++)
+            for (int j = col + 1; j < 8; j++)
             {
-                if (InsideBorder(IcurrFigure, j) && !DeterminePath(IcurrFigure, j)) break;
+                if (engine.InsideBorder(row, j) && !DeterminePath(row, j)) break;
                 if (isOneStep) break;
             }
-            for (int j = JcurrFigure - 1; j >= 0; j--)
+            for (int j = col - 1; j >= 0; j--)
             {
-                if (InsideBorder(IcurrFigure, j) && !DeterminePath(IcurrFigure, j)) break;
+                if (engine.InsideBorder(row, j) && !DeterminePath(row, j)) break;
                 if (isOneStep) break;
             }
         }
 
-        public bool DeterminePath(int IcurrFigure, int j)
+        public bool DeterminePath(int row, int col)
         {
-            if (map[IcurrFigure, j] == 0)
+            if (engine.GetFigure(row, col) == 0)
             {
-                butts[IcurrFigure, j].BackColor = Color.Yellow;
-                butts[IcurrFigure, j].Enabled = true;
+                butts[row, col].BackColor = Color.Yellow;
+                butts[row, col].Enabled = true;
             }
             else
             {
-                if (map[IcurrFigure, j] / 10 != currPlayer)
+                if (engine.GetPlayer(row, col) != currentPlayer)
                 {
-                    butts[IcurrFigure, j].BackColor = Color.Yellow;
-                    butts[IcurrFigure, j].Enabled = true;
+                    butts[row, col].BackColor = Color.Yellow;
+                    butts[row, col].Enabled = true;
                 }
                 return false;
             }
             return true;
         }
-
-        public bool InsideBorder(int ti, int tj)
-        {
-            if (ti >= 8 || tj >= 8 || ti < 0 || tj < 0) 
-                return false;
-            return true;
-        }
-
         public void CloseSteps()
         {
             for (int i = 0; i < 8; i++)
@@ -332,16 +311,30 @@ namespace Chess.Forms
 
         public void SwitchPlayer()
         {
-            RoundTimer.Enabled = true;
-            currPlayer = currPlayer == 1 ? 2 : 1;
             UpdateDebugFields();
             UpdateInformationLabels();
+            if (isMoving == true)
+                DebugPositionClickedLabel.Text = $"Невозможно сменить игрока, пока вы пытаетесь ходить фигурами!";
+            else
+            {
+                RoundTimer.Enabled = true;
+                currentPlayer = currentPlayer == Player.White ? Player.Black : Player.White;
+                DebugPositionClickedLabel.Text = $"{timer} : Игрок изменён на {currentPlayer}.";
+            }
         }
 
         private void SwitchPlayerButton_Click(object sender, EventArgs e) => SwitchPlayer();
 
         private void RoundTimer_Tick(object sender, EventArgs e)
         {
+            if (gameOver)
+            {
+                string player;
+                if (currentPlayer == Player.Black) player = "Победили белые!";
+                else player = "Победили чёрные!";
+                WinnerLabel.Text = $"{player}";
+                RoundTimer.Enabled = false;
+            }
             timer++;
             DebugTimer.Text = timer.ToString();
         }
