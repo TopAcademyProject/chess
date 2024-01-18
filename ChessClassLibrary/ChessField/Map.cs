@@ -24,7 +24,7 @@
 
         public Map(bool DebugMode) => Figures = new Figure[8, 8]
     {
-                { new Figure(Player.White,5),new Figure(Player.White,4),new Figure(Player.White,3),new Figure(Player.White,2),new Figure(Player.White,1),new Figure(Player.White,3),new Figure(Player.White,4),new Figure(Player.White,5) },
+                { new Figure(Player.White,5),new Figure(Player.White,4),new Figure(Player.White,3),new Figure(Player.White,2),new Figure(Player.White,1),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.White,5) },
                 { new Figure(Player.White,6),new Figure(Player.White,6),new Figure(Player.White,6),new Figure(Player.White,2),new Figure(Player.Empty,0),new Figure(Player.White,6),new Figure(Player.White,6),new Figure(Player.White,6) },
                 { new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Black,1),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0) },
                 { new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0) },

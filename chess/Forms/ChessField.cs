@@ -25,10 +25,12 @@ namespace Chess.Forms
             CreateMap();
         }
         public Image chessSprites;
-        public GameEngine engine = new GameEngine(new Map());
+        public GameEngine engine = new GameEngine(new Map(true));
         public Button[,] butts = new Button[8, 8];
         public Player currentPlayer;
         public Button prevButton;
+        public bool CastlingAbilityWhite = true;
+        public bool CastlingAbilityBlack = true;
         public bool isMoving = false;
 
         public void CreateMap()
@@ -81,6 +83,14 @@ namespace Chess.Forms
             clickedCellPosition = new Position(pressedButton.Location.Y / 50, pressedButton.Location.X / 50);
             if (prevButton != null)
                 prevButton.BackColor = Color.White;
+            if(engine.GetFigure(clickedCellPosition) == 1)
+            {
+                
+            }
+            if (pressedButton == butts[0, 6])
+            {
+
+            }
             if (engine.GetFigure(clickedCellPosition) != 0 && engine.GetPlayer(clickedCellPosition) == currentPlayer)
             {
                 CloseSteps();
@@ -94,6 +104,7 @@ namespace Chess.Forms
                     pressedButton.BackColor = Color.White;
                     ActivateAllButtons();
                     isMoving = false;
+
                 }
                 else isMoving = true;
             }
@@ -177,6 +188,7 @@ namespace Chess.Forms
                 case 1:
                     ShowVerticalHorizontal(row, col, true);
                     ShowDiagonal(row, col, true);
+                    ShowShortCastling(row);
                     break;
                 case 4:
                     ShowHorseSteps(row, col);
@@ -267,6 +279,18 @@ namespace Chess.Forms
             {
                 if (engine.InsideBorder(row, j) && !DeterminePath(row, j)) break;
                 if (isOneStep) break;
+            }
+        }
+
+        public void ShowShortCastling(int row)
+        {
+            if (engine.GetFigure(row, 5) == 0)
+            {
+                if (CastlingAbilityWhite == true)
+                {
+                    butts[0, 6].BackColor = Color.Cyan;
+                    butts[0, 6].Enabled = true;
+                }
             }
         }
 
