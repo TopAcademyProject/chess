@@ -85,7 +85,7 @@ namespace ChessClassLibrary.ChessField
             var positionShift = new Position(row + 1 * playerDefinition, col);
             if (InsideBorder(row + 1 * playerDefinition, col) && GetFigure(positionShift) == 0)
             {
-                if (row == 1 && currentPlayer == Player.White || row == 6 && currentPlayer == Player.Black)
+                if ((row == 1 && currentPlayer == Player.White || row == 6 && currentPlayer == Player.Black) && GetFigure(row + 2 * playerDefinition, col) == 0)
                 {
                     active[row + 1 * playerDefinition, col] = true;
                     active[row + 2 * playerDefinition, col] = true;

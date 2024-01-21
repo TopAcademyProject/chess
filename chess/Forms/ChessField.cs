@@ -12,10 +12,13 @@ namespace Chess.Forms
         public int scoreSecond = 0;
         public bool timerEnable = false;
         public int timer = 0;
+        public int timerWhite = 0;
+        public int timerBlack = 0;
         public Font mainFont = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 204);
         Position clickedCellPosition;
         Position prevClickedCellPosition;
         bool gameOver = false;
+        bool debugMode = false;
         public ChessField()
         {
             InitializeComponent();
@@ -71,16 +74,14 @@ namespace Chess.Forms
         public void UpdateInformationLabels()
         {
             ScoreFisrtLabel.Font = mainFont; ScoreSecondLabel.Font = mainFont; CurrentPlayerLabel.Font = mainFont; WinnerLabel.Font = mainFont;
+            TimerWhiteLabel.Font = mainFont; TimerBlackLabel.Font = mainFont;
             ScoreFisrtLabel.Text = $"First player score: {scoreFirst}";
             ScoreSecondLabel.Text = $"Second player score: {scoreSecond}";
-            CurrentPlayerLabel.Text = $"Current player: {currentPlayer}";
             WinnerLabel.Text = "";
         }
 
         public void OnFigurePress(object sender, EventArgs e)
         {
-            UpdateDebugFields();
-
             Button pressedButton = sender as Button;
             clickedCellPosition = new Position(pressedButton.Location.Y / 50, pressedButton.Location.X / 50);
             if (prevButton != null)
@@ -114,7 +115,11 @@ namespace Chess.Forms
                         if (currentPlayer == Player.White) scoreFirst++;
                         else scoreSecond++;
                     }
-                    else engine.SetFigure(prevClickedCellPosition, new Figure(currentPlayer, tempClickedCellPosition));
+                    else
+                    {
+                        engine.SetFigure(prevClickedCellPosition, new Figure(currentPlayer, tempClickedCellPosition));
+                        engine.SetFigure(prevClickedCellPosition, new Figure(Player.Empty, 0));
+                    }
                     pressedButton.BackgroundImage = prevButton.BackgroundImage;
                     clickedCellPosition = prevClickedCellPosition;
                     prevButton.BackgroundImage = null;
@@ -130,6 +135,24 @@ namespace Chess.Forms
 
         private void UpdateDebugFields()
         {
+            if (!debugMode)
+            {
+                DebugField.Visible = false;
+                DebugGameOverLabel.Visible = false;
+                DebugInfoLabel.Visible = false;
+                DebugPositionClickedLabel.Visible = false;
+                SwitchPlayerButton.Visible = false;
+                DebugTimer.Visible = false;
+            }
+            else
+            {
+                DebugField.Visible = true;
+                DebugGameOverLabel.Visible = true;
+                DebugInfoLabel.Visible = true;
+                DebugPositionClickedLabel.Visible = true;
+                SwitchPlayerButton.Visible = true;
+                DebugTimer.Visible = true;
+            }
             DebugField.Font = mainFont;
             DebugTimer.Font = mainFont;
             DebugInfoLabel.Font = mainFont;
@@ -143,6 +166,9 @@ namespace Chess.Forms
 
             DebugGameOverLabel.Text = $"Game {gameOverText}.";
             string str = "";
+            for (int i = 0; i < 0; i++)
+                for (int j = 0; j < 0; j++)
+                    str = "";
             for (int row = 0; row < 8; row++)
             {
                 for (int col = 0; col < 8; col++)
@@ -222,10 +248,6 @@ namespace Chess.Forms
 
         public void ShowDiagonal(int row, int col, bool isOneStep = false)
         {
-/*            for(int i = 0;i < 8;i++)
-                for (int j = 0;j < 8; j++)
-                    if(engine.GetDiagonalSteps(row, col, currentPlayer)[i,j]==true)
-                        DeterminePath(i, j);*/
             int j = col + 1;
             for (int i = row - 1; i >= 0; i--)
             {
@@ -314,12 +336,13 @@ namespace Chess.Forms
             UpdateDebugFields();
             UpdateInformationLabels();
             if (isMoving == true)
-                DebugPositionClickedLabel.Text = $"Невозможно сменить игрока, пока вы пытаетесь ходить фигурами!";
+                DebugPositionClickedLabel.Text = $"It is impossible to change players while you are trying to move pieces!";
             else
             {
                 RoundTimer.Enabled = true;
                 currentPlayer = currentPlayer == Player.White ? Player.Black : Player.White;
-                DebugPositionClickedLabel.Text = $"{timer} : Игрок изменён на {currentPlayer}.";
+                CurrentPlayerLabel.Text = $"Current player: {currentPlayer}";
+                DebugPositionClickedLabel.Text = $"{timer} : Player changed to {currentPlayer}.";
             }
         }
 
@@ -330,13 +353,24 @@ namespace Chess.Forms
             if (gameOver)
             {
                 string player;
-                if (currentPlayer == Player.Black) player = "Победили белые!";
-                else player = "Победили чёрные!";
+                if (currentPlayer == Player.Black) player = "Win white!";
+                else player = "Win black!";
                 WinnerLabel.Text = $"{player}";
                 RoundTimer.Enabled = false;
             }
+            if (currentPlayer == Player.White) timerWhite++;
+            else timerBlack++;
             timer++;
-            DebugTimer.Text = timer.ToString();
+            TimerBlackLabel.Text = $"Black time: {timerBlack}";
+            TimerWhiteLabel.Text = $"White time: {timerWhite}";
+            DebugTimer.Text = $"Time: {timer}";
+        }
+
+        private void ShowDebugMenu_Click(object sender, EventArgs e)
+        {
+            if(debugMode == true) debugMode = false;
+            else                  debugMode = true;
+            UpdateDebugFields();
         }
     }
 }

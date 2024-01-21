@@ -186,7 +186,7 @@ namespace ChessConsoleApp.Command
                         {
                             if (cmd.Split(' ')[0] == DEFAULT_COMMANDS[i])
                             {
-                                commandLauncher.Launch(userInput);
+                                commandLauncher.Launch(userInput, this);
                                 found = true;
                             }
                         }
@@ -202,13 +202,13 @@ namespace ChessConsoleApp.Command
                 if (JSONFile.Commands.ContainsKey(userInputSplited[0]))
                 {
                     commandFound = true;
-                    if (JSONFile.Commands[userInputSplited[0]].Contains(null)) commandLauncher.Launch(userInput);
+                    if (JSONFile.Commands[userInputSplited[0]].Contains(null)) commandLauncher.Launch(userInput, this);
                     else
                     {
                         try
                         {
                             if (userInputSplited[1] != null)
-                                if (JSONFile.Commands[userInputSplited[0]].Contains(userInputSplited[1])) commandLauncher.Launch(userInput);
+                                if (JSONFile.Commands[userInputSplited[0]].Contains(userInputSplited[1])) commandLauncher.Launch(userInput, this);
                                 else
                                 {
                                     Console.Write($"Command argument ");
