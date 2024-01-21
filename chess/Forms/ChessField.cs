@@ -30,7 +30,7 @@ namespace Chess.Forms
             CreateMap();
         }
         public Image chessSprites;
-        public GameEngine engine = new GameEngine(new Map(true));
+        public GameEngine engine = new GameEngine(new Map());
         /*
          * Debug  map mode — new Map(true)
          * Normal map mode — new Map()
