@@ -31,7 +31,7 @@
                 { new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0) },
                 { new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0),new Figure(Player.Empty,0) },
                 { new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Empty,0),new Figure(Player.Black,6),new Figure(Player.Black,6),new Figure(Player.Black,6) },
-                { new Figure(Player.Black,5),new Figure(Player.Black,4),new Figure(Player.Black,3),new Figure(Player.Black,2),new Figure(Player.Black,2),new Figure(Player.Black,3),new Figure(Player.Black,4),new Figure(Player.Black,5) },
+                { new Figure(Player.Black,5),new Figure(Player.Black,4),new Figure(Player.Black,3),new Figure(Player.Black,2),new Figure(Player.Black,1),new Figure(Player.Black,3),new Figure(Player.Black,4),new Figure(Player.Black,5) },
     };
     }
 }

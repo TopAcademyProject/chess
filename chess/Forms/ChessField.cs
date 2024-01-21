@@ -2,6 +2,7 @@
 using ChessClassLibrary.ChessField;
 using System;
 using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace Chess.Forms
@@ -29,8 +30,9 @@ namespace Chess.Forms
         public Button[,] butts = new Button[8, 8];
         public Player currentPlayer;
         public Button prevButton;
-        public bool CastlingAbilityWhite = true;
-        public bool CastlingAbilityBlack = true;
+        public bool WCastlingAbility = true;
+        public bool BCastlingAbility = true;
+        public bool CastlingInProcess = false;
         public bool isMoving = false;
 
         public void CreateMap()
@@ -76,7 +78,7 @@ namespace Chess.Forms
         }
 
         public void OnFigurePress(object sender, EventArgs e)
-        {
+         {
             UpdateDebugFields();
 
             Button pressedButton = sender as Button;
@@ -87,10 +89,44 @@ namespace Chess.Forms
             {
                 
             }
-            if (pressedButton == butts[0, 6])
-            {
 
+            if (pressedButton == butts[0, 4])
+            {
+                CastlingInProcess = true;
             }
+
+            if (CastlingInProcess)
+            {
+                if (WCastlingAbility == true && pressedButton == butts[0, 6])
+                {
+                    Position ShortWhite = new Position(0, 5);
+                    Position RRook = new Position(0, 7);
+                    engine.SetFigure(ShortWhite, new Figure(Player.White, 5));
+                    butts[0, 5].BackgroundImage = butts[0, 7].BackgroundImage;
+                    engine.SetFigure(RRook, (new Figure(Player.Empty, 0)));
+                    butts[0, 7].BackgroundImage = null;
+                }
+                else if (WCastlingAbility == true && pressedButton == butts[0, 1])
+                {
+                    Position LongWhite = new Position(0, 2);
+                    Position RRook = new Position(0, 0);
+                    engine.SetFigure(LongWhite, new Figure(Player.White, 2));
+                    butts[0, 2].BackgroundImage = butts[0, 0].BackgroundImage;
+                    engine.SetFigure(RRook, (new Figure(Player.Empty, 0)));
+                    butts[0, 0].BackgroundImage = null;
+                }
+            }
+
+            if (engine.GetFigure(0, 4) != 1)
+            {
+                WCastlingAbility = false;
+            }
+
+            else if (engine.GetFigure(7, 4) != 1)
+            {
+                BCastlingAbility = false;
+            }
+
             if (engine.GetFigure(clickedCellPosition) != 0 && engine.GetPlayer(clickedCellPosition) == currentPlayer)
             {
                 CloseSteps();
@@ -189,6 +225,7 @@ namespace Chess.Forms
                     ShowVerticalHorizontal(row, col, true);
                     ShowDiagonal(row, col, true);
                     ShowShortCastling(row);
+                    ShowLongCastling(row);
                     break;
                 case 4:
                     ShowHorseSteps(row, col);
@@ -286,10 +323,21 @@ namespace Chess.Forms
         {
             if (engine.GetFigure(row, 5) == 0)
             {
-                if (CastlingAbilityWhite == true)
+                if (WCastlingAbility == true)
                 {
                     butts[0, 6].BackColor = Color.Cyan;
                     butts[0, 6].Enabled = true;
+                }
+            }
+        }
+        public void ShowLongCastling(int row)
+        {
+            if (engine.GetFigure(row, 1) == 0)
+            {
+                if (WCastlingAbility == true)
+                {
+                    butts[0, 1].BackColor = Color.Cyan;
+                    butts[0, 1].Enabled = true;
                 }
             }
         }
