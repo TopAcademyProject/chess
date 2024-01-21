@@ -8,7 +8,7 @@ namespace ChessConsoleApp.Command
 {
     public class CommandLauncher
     {
-        public void Launch(string item)
+        public void Launch(string item, CommandHandler handler)
         {
             #region Validation
             bool hasArgument = false;
@@ -26,7 +26,6 @@ namespace ChessConsoleApp.Command
             #endregion
             #region Declaring Class Instances
             Help help = new Help();
-            CommandHandler handler = new CommandHandler();
             #endregion
             switch (command)
             {
@@ -65,6 +64,7 @@ namespace ChessConsoleApp.Command
                     break;
                 case "help":
                     help.ShowHelp();
+                    Console.WriteLine(help.Foo(21));
                     break;
                 case "cmd:version":
                     Console.WriteLine($"{CommandHandler.APP_NAME} v{CommandHandler.VERSION}, command version v{Command.VERSION}.");

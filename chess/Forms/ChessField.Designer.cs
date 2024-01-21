@@ -38,6 +38,11 @@
             this.DebugInfoLabel = new System.Windows.Forms.Label();
             this.RoundTimer = new System.Windows.Forms.Timer(this.components);
             this.DebugPositionClickedLabel = new System.Windows.Forms.Label();
+            this.DebugGameOverLabel = new System.Windows.Forms.Label();
+            this.WinnerLabel = new System.Windows.Forms.Label();
+            this.TimerWhiteLabel = new System.Windows.Forms.Label();
+            this.TimerBlackLabel = new System.Windows.Forms.Label();
+            this.ShowDebugMenu = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DebugField
@@ -119,11 +124,62 @@
             this.DebugPositionClickedLabel.TabIndex = 7;
             this.DebugPositionClickedLabel.Text = "Position clicked";
             // 
+            // DebugGameOverLabel
+            // 
+            this.DebugGameOverLabel.AutoSize = true;
+            this.DebugGameOverLabel.Location = new System.Drawing.Point(596, 198);
+            this.DebugGameOverLabel.Name = "DebugGameOverLabel";
+            this.DebugGameOverLabel.Size = new System.Drawing.Size(79, 13);
+            this.DebugGameOverLabel.TabIndex = 8;
+            this.DebugGameOverLabel.Text = "Game continue";
+            // 
+            // WinnerLabel
+            // 
+            this.WinnerLabel.AutoSize = true;
+            this.WinnerLabel.Location = new System.Drawing.Point(420, 140);
+            this.WinnerLabel.Name = "WinnerLabel";
+            this.WinnerLabel.Size = new System.Drawing.Size(88, 13);
+            this.WinnerLabel.TabIndex = 9;
+            this.WinnerLabel.Text = "WINNER LABEL";
+            // 
+            // TimerWhiteLabel
+            // 
+            this.TimerWhiteLabel.AutoSize = true;
+            this.TimerWhiteLabel.Location = new System.Drawing.Point(420, 92);
+            this.TimerWhiteLabel.Name = "TimerWhiteLabel";
+            this.TimerWhiteLabel.Size = new System.Drawing.Size(60, 13);
+            this.TimerWhiteLabel.TabIndex = 10;
+            this.TimerWhiteLabel.Text = "White timer";
+            // 
+            // TimerBlackLabel
+            // 
+            this.TimerBlackLabel.AutoSize = true;
+            this.TimerBlackLabel.Location = new System.Drawing.Point(420, 115);
+            this.TimerBlackLabel.Name = "TimerBlackLabel";
+            this.TimerBlackLabel.Size = new System.Drawing.Size(59, 13);
+            this.TimerBlackLabel.TabIndex = 11;
+            this.TimerBlackLabel.Text = "Black timer";
+            // 
+            // ShowDebugMenu
+            // 
+            this.ShowDebugMenu.Location = new System.Drawing.Point(12, 415);
+            this.ShowDebugMenu.Name = "ShowDebugMenu";
+            this.ShowDebugMenu.Size = new System.Drawing.Size(146, 23);
+            this.ShowDebugMenu.TabIndex = 12;
+            this.ShowDebugMenu.Text = "Show debug menu";
+            this.ShowDebugMenu.UseVisualStyleBackColor = true;
+            this.ShowDebugMenu.Click += new System.EventHandler(this.ShowDebugMenu_Click);
+            // 
             // ChessField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ShowDebugMenu);
+            this.Controls.Add(this.TimerBlackLabel);
+            this.Controls.Add(this.TimerWhiteLabel);
+            this.Controls.Add(this.WinnerLabel);
+            this.Controls.Add(this.DebugGameOverLabel);
             this.Controls.Add(this.DebugPositionClickedLabel);
             this.Controls.Add(this.DebugInfoLabel);
             this.Controls.Add(this.SwitchPlayerButton);
@@ -150,5 +206,10 @@
         private System.Windows.Forms.Label DebugInfoLabel;
         private System.Windows.Forms.Timer RoundTimer;
         private System.Windows.Forms.Label DebugPositionClickedLabel;
+        private System.Windows.Forms.Label DebugGameOverLabel;
+        private System.Windows.Forms.Label WinnerLabel;
+        private System.Windows.Forms.Label TimerWhiteLabel;
+        private System.Windows.Forms.Label TimerBlackLabel;
+        private System.Windows.Forms.Button ShowDebugMenu;
     }
 }
