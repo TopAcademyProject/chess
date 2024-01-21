@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessClassLibrary
+namespace ChessClassLibrary.Chess
 {
-    public class Class1
+    internal class Steps
     {
     }
 }

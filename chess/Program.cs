@@ -1,5 +1,4 @@
-﻿using Chess;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,9 +8,6 @@ namespace Chess
 {
     public class Program
     {
-        /// <summary>
-        /// Главная точка входа для приложения.
-        /// </summary>
         [STAThread]
         static void Main()
         {
@@ -19,5 +15,6 @@ namespace Chess
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new main());
         }
+
     }
 }
